@@ -14,3 +14,10 @@ export {
 export * from "./components/chat/ChatEngine";
 export type * from "./components/chat/types";
 export { sceneSchema, messageSchema } from "./schema";
+export {
+  WeChatLongImage,
+  LONG_IMAGE_HEIGHT,
+  LONG_IMAGE_WIDTH,
+  estimateLongImageHeight,
+} from "./scenes/WeChatLongImage";
+export { WeChatImageScroll } from "./scenes/WeChatImageScroll";

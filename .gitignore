@@ -11,3 +11,5 @@ build/
 *.jsonl
 private/
 inputs/
+generated/
+public/generated/

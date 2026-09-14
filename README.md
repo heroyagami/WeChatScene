@@ -69,3 +69,26 @@ JSON 输入见 examples/consultation.json。CLI 入口使用 sceneSchema 检查�
 - 私人脚本、照片、音频和生产输入放 private/、inputs/；生成结果放 out/，这些目录已忽略。
 
 来源与边界见 MIGRATION.md。此前图片生成的卡片不是本组件依赖；本仓库直接用 SVG 绘制，金额、状态和左右位置均可调整。
+
+## 每日云端长图滚动视频
+
+本仓库可以作为独立项目每天生成一条微信场景视频，与 `vibe-motion-private` 无关。选题原文保存在 `content/topic-sources/`，ChatGPT 聊天任务读取这些文档并保持原有内容和顺序。
+
+视频制作分为内容与渲染两部分：ChatGPT 生成当天12条微信对话并提交 `daily-input/latest.json`；GitHub Actions 校验输入，Remotion 按当天消息内容计算高度并渲染一张1080像素宽的完整长图，再由另一个 composition 只移动这张图片，生成1080×1440、12秒、无音轨的平滑上滚视频。消息不会逐条出现。
+
+ChatGPT 是模型和每日控制器。ChatGPT 定时任务负责读取选题源、避开近期重复题目、生成并提交当天输入，然后观察渲染结果。GitHub Actions 只执行确定性的校验和 Remotion 渲染，不调用 GitHub Models 或 OpenAI API，不需要相关 Secret。定时调度属于 ChatGPT 任务，Actions 本身不配置 cron；也可在 Actions 页面手动重跑渲染。
+
+每次运行上传四个文件作为 GitHub Actions Artifact，保留30天：
+
+- `wechat-日期.mp4`：无声滚动视频
+- `wechat-日期.png`：完整微信聊天长图
+- `wechat-日期.json`：消息数据
+- `wechat-日期-manifest.json`：日期、选题、ChatGPT 输入来源和生产方式记录
+
+本地可使用已提交的 `daily-input/latest.json` 检查完整渲染链，全程不调用模型：
+
+```powershell
+npm run daily:prepare
+npm run daily:long-image
+npm run daily:render
+```

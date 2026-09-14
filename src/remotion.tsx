@@ -4,6 +4,13 @@ import { WeChatScene } from "./scenes/WeChatScene";
 import { TransferCard } from "./components/chat/TransferCard";
 import { exampleMessages } from "./example";
 import { sceneSchema } from "./schema";
+import {
+  LONG_IMAGE_HEIGHT,
+  LONG_IMAGE_WIDTH,
+  WeChatLongImage,
+  estimateLongImageHeight,
+} from "./scenes/WeChatLongImage";
+import { WeChatImageScroll } from "./scenes/WeChatImageScroll";
 
 const Portrait = sceneSchema.parse({ messages: exampleMessages });
 const Landscape = {
@@ -66,6 +73,30 @@ const Root = () => (
       height={240}
     />
     <Still id="TransferPending" component={Pending} width={636} height={240} />
+    <Still
+      id="WeChatLongImage"
+      component={WeChatLongImage}
+      defaultProps={{ messages: exampleMessages }}
+      width={LONG_IMAGE_WIDTH}
+      height={LONG_IMAGE_HEIGHT}
+      calculateMetadata={({ props }) => ({
+        height: estimateLongImageHeight(props.messages),
+      })}
+    />
+    <Composition
+      id="WeChatImageScroll"
+      component={WeChatImageScroll}
+      defaultProps={{
+        imageSrc: "generated/daily-chat.png",
+        imageWidth: LONG_IMAGE_WIDTH,
+        imageHeight: LONG_IMAGE_HEIGHT,
+        holdFrames: 24,
+      }}
+      width={1080}
+      height={1440}
+      fps={30}
+      durationInFrames={360}
+    />
   </>
 );
 registerRoot(Root);

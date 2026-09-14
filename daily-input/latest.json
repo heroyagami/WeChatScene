@@ -1,0 +1,59 @@
+{
+  "date": "2026-09-14",
+  "topic": "公司发了Offer又反悔，求职者应该怎么办",
+  "source": "content/topic-sources/02-劳动法课程目录.md：02",
+  "messages": [
+    {
+      "id": "01",
+      "role": "right",
+      "text": "曹律师，公司发了Offer又突然反悔，我该怎么办"
+    },
+    {
+      "id": "02",
+      "role": "left",
+      "text": "先确认Offer里的岗位、薪资和入职时间是否明确"
+    },
+    {
+      "id": "03",
+      "role": "right",
+      "text": "都写清楚了，我也已经辞掉原来的工作"
+    },
+    {
+      "id": "04",
+      "role": "left",
+      "text": "把Offer、沟通记录和离职材料完整保存"
+    },
+    { "id": "05", "role": "right", "text": "我先支付咨询费" },
+    {
+      "id": "fee-sent",
+      "role": "right",
+      "text": "",
+      "kind": "transfer",
+      "transferId": "consultation-fee",
+      "transferAmount": "500.00",
+      "transferState": "accepted"
+    },
+    { "id": "06", "role": "left", "text": "收到" },
+    {
+      "id": "fee-receipt",
+      "role": "left",
+      "text": "",
+      "kind": "transfer",
+      "transferId": "consultation-fee",
+      "transferAmount": "500.00",
+      "transferState": "received"
+    },
+    { "id": "07", "role": "left", "text": "还要核对公司撤回Offer的理由和时间" },
+    { "id": "08", "role": "right", "text": "已经产生的损失可以主张吗" },
+    {
+      "id": "09",
+      "role": "left",
+      "text": "可以结合信赖损失和双方过错进一步判断"
+    },
+    {
+      "id": "10",
+      "role": "left",
+      "text": "先整理证据和损失凭证，再确定处理方案"
+    }
+  ]
+}
