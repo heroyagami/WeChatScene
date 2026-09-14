@@ -1,5 +1,5 @@
 import { buildReadingTimeline } from "../src/scenes/reading";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 import { sceneSchema } from "../src/schema";
@@ -64,8 +64,18 @@ const bgmKey =
     : requestedBgm === "auto"
       ? autoSelectBgm(input.topic)
       : requestedBgm;
-const bgmTrack = bgmKey ? playlist.tracks[bgmKey] : undefined;
-if (bgmKey && !bgmTrack) throw new Error(`未知BGM: ${bgmKey}`);
+const configuredBgmTrack = bgmKey ? playlist.tracks[bgmKey] : undefined;
+if (bgmKey && !configuredBgmTrack) throw new Error(`未知BGM: ${bgmKey}`);
+
+let bgmTrack = configuredBgmTrack;
+if (bgmTrack) {
+  try {
+    await access(path.join(root, "public", bgmTrack.publicPath));
+  } catch {
+    console.warn(`BGM文件尚未入库，当前先静音渲染: ${bgmTrack.publicPath}`);
+    bgmTrack = undefined;
+  }
+}
 const bgmVolume = bgmTrack
   ? (input.bgmVolume ?? bgmTrack.recommendedVolume)
   : 0;
@@ -143,7 +153,11 @@ await writeFile(
               fadeInSeconds: playlist.productionRule.fadeInSeconds,
               fadeOutSeconds: playlist.productionRule.fadeOutSeconds,
             }
-          : { enabled: false },
+          : {
+              enabled: false,
+              requestedKey: bgmKey,
+              reason: configuredBgmTrack ? "asset-missing" : "disabled",
+            },
       },
     },
     null,
@@ -151,5 +165,5 @@ await writeFile(
   )}\n`,
 );
 console.log(
-  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\nbgm=${bgmKey ?? "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / 30}s`,
+  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\nbgm=${bgmTrack ? bgmKey : "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / 30}s`,
 );
