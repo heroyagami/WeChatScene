@@ -14,7 +14,7 @@
     "cards": "remotion still src/remotion.tsx TransferSent out/transfer-sent.png --image-format=png && remotion still src/remotion.tsx TransferReceived out/transfer-received.png --image-format=png",
     "daily:prepare": "tsx scripts/prepare-daily-input.ts",
     "daily:long-image": "remotion still src/remotion.tsx WeChatLongImage public/generated/daily-chat.png --image-format=png --props=generated/daily-scene.json",
-    "daily:render": "remotion render src/remotion.tsx WeChatImageScroll out/daily-wechat.mp4 --muted --props=generated/scroll-props.json",
+    "daily:render": "remotion render src/remotion.tsx WeChatImageScroll out/daily-wechat.mp4 --props=generated/scroll-props.json",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "verify": "npm run typecheck && npm test"
