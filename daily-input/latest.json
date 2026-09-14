@@ -1,490 +1,69 @@
 {
   "date": "2026-09-14",
-  "topic": "用AI换脸“恶搞”他人，受害人该怎么维权？",
-  "source": "content/topic-sources/01-民法典课程目录.md：044",
+  "topic": "公司调岗降薪，不去就算旷工怎么办？",
+  "source": "content/topic-sources/03-职场法律课程目录.md：06",
+  "readingCpm": 450,
+  "bgm": "forest-friends",
+  "bgmVolume": 0.09,
   "messages": [
-    {
-      "id": "01",
-      "role": "right",
-      "text": "曹律，有人把我的脸AI换到擦边视频里"
-    },
-    {
-      "id": "02",
-      "role": "right",
-      "text": "还发到群里和朋友圈，很多人都看到了"
-    },
-    {
-      "id": "03",
-      "role": "right",
-      "text": "现在到处有人截图转发，我根本删不干净"
-    },
-    {
-      "id": "04",
-      "role": "right",
-      "text": "对方说只是恶搞，我能让他赔吗"
-    },
-    {
-      "id": "05",
-      "role": "left",
-      "text": "500"
-    },
-    {
-      "id": "fee-sent",
-      "role": "right",
-      "text": "",
-      "kind": "transfer",
-      "transferId": "consultation-fee",
-      "transferAmount": "500.00",
-      "transferState": "accepted"
-    },
-    {
-      "id": "fee-receipt",
-      "role": "left",
-      "text": "",
-      "kind": "transfer",
-      "transferId": "consultation-fee",
-      "transferAmount": "500.00",
-      "transferState": "received"
-    },
-    {
-      "id": "07",
-      "role": "left",
-      "text": "先确认一下，是你的脸清楚可辨吗"
-    },
-    {
-      "id": "08",
-      "role": "right",
-      "text": "是，熟人一眼认出来，还配了我的名字"
-    },
-    {
-      "id": "09",
-      "role": "left",
-      "text": "你授权过他使用照片或制作视频吗"
-    },
-    {
-      "id": "10",
-      "role": "right",
-      "text": "没有，他从我朋友圈拿的照片"
-    },
-    {
-      "id": "11",
-      "role": "left",
-      "text": "谁制作、谁首发，你现在知道吗"
-    },
-    {
-      "id": "12",
-      "role": "right",
-      "text": "前同事做的，他在私聊里承认了"
-    },
-    {
-      "id": "13",
-      "role": "left",
-      "text": "先保存这段承认制作的完整聊天"
-    },
-    {
-      "id": "14",
-      "role": "left",
-      "text": "目前在哪些平台传播，有威胁索钱吗"
-    },
-    {
-      "id": "15",
-      "role": "right",
-      "text": "同事群和朋友圈，没有要钱"
-    },
-    {
-      "id": "16",
-      "role": "right",
-      "text": "客户来问我，已经影响工作了"
-    },
-    {
-      "id": "17",
-      "role": "left",
-      "text": "按你说的情况，先留证，同时止损"
-    },
-    {
-      "id": "18",
-      "role": "left",
-      "text": "未经同意伪造你的肖像，可能侵权"
-    },
-    {
-      "id": "19",
-      "role": "left",
-      "text": "民法典禁止利用信息技术伪造他人肖像"
-    },
-    {
-      "id": "20",
-      "role": "left",
-      "text": "如果贬损你的社会评价，还涉及名誉权"
-    },
-    {
-      "id": "21",
-      "role": "right",
-      "text": "他说标了AI合成，就不算侵权"
-    },
-    {
-      "id": "22",
-      "role": "left",
-      "text": "标注合成不等于取得你的授权"
-    },
-    {
-      "id": "23",
-      "role": "left",
-      "text": "也不能因此免除侮辱、诽谤的责任"
-    },
-    {
-      "id": "24",
-      "role": "right",
-      "text": "那我现在先截图还是先让他删"
-    },
-    {
-      "id": "25",
-      "role": "left",
-      "text": "能立即留存的先留存，再马上投诉"
-    },
-    {
-      "id": "26",
-      "role": "left",
-      "text": "不要为了等公证，放任内容继续传播"
-    },
-    {
-      "id": "27",
-      "role": "right",
-      "text": "截图要截哪些，才不容易漏"
-    },
-    {
-      "id": "28",
-      "role": "left",
-      "text": "视频内容、配文、发布时间都保存"
-    },
-    {
-      "id": "29",
-      "role": "left",
-      "text": "账号主页、账号ID和链接也留好"
-    },
-    {
-      "id": "30",
-      "role": "left",
-      "text": "群名、发言人及上下文一起记录"
-    },
-    {
-      "id": "31",
-      "role": "left",
-      "text": "可录屏展示从账号进入原帖的过程"
-    },
-    {
-      "id": "32",
-      "role": "left",
-      "text": "保留原始文件，不只留裁剪后的图片"
-    },
-    {
-      "id": "33",
-      "role": "left",
-      "text": "证据备份一份，原手机聊天别清空"
-    },
-    {
-      "id": "34",
-      "role": "right",
-      "text": "他删了朋友圈，群里还有人转"
-    },
-    {
-      "id": "35",
-      "role": "left",
-      "text": "保存现存转发和他承认制作的记录"
-    },
-    {
-      "id": "36",
-      "role": "left",
-      "text": "记下看到原帖的人，必要时请其作证"
-    },
-    {
-      "id": "37",
-      "role": "left",
-      "text": "重要且易灭失的证据可考虑公证保全"
-    },
-    {
-      "id": "38",
-      "role": "right",
-      "text": "客户问我的消息也有用吗"
-    },
-    {
-      "id": "39",
-      "role": "left",
-      "text": "有用，能帮助说明传播和实际影响"
-    },
-    {
-      "id": "40",
-      "role": "left",
-      "text": "订单取消、收入损失也留相关凭证"
-    },
-    {
-      "id": "41",
-      "role": "left",
-      "text": "就医记录和合理维权支出同样保存"
-    },
-    {
-      "id": "42",
-      "role": "right",
-      "text": "怎么向平台投诉才有效"
-    },
-    {
-      "id": "43",
-      "role": "left",
-      "text": "选肖像侵权或侮辱诽谤等对应入口"
-    },
-    {
-      "id": "44",
-      "role": "left",
-      "text": "提交具体链接、账号和侵权说明"
-    },
-    {
-      "id": "45",
-      "role": "left",
-      "text": "身份材料按平台要求走正式渠道提交"
-    },
-    {
-      "id": "46",
-      "role": "left",
-      "text": "说明脸是你，但视频是未经同意合成"
-    },
-    {
-      "id": "47",
-      "role": "left",
-      "text": "要求删除或屏蔽，并保存投诉回执"
-    },
-    {
-      "id": "48",
-      "role": "left",
-      "text": "可请求平台保存相关记录供依法调取"
-    },
-    {
-      "id": "49",
-      "role": "right",
-      "text": "群里怎么说，越解释会不会越乱"
-    },
-    {
-      "id": "50",
-      "role": "left",
-      "text": "请群主制止转发并删除相关内容"
-    },
-    {
-      "id": "51",
-      "role": "left",
-      "text": "简短澄清系未经授权的AI合成"
-    },
-    {
-      "id": "52",
-      "role": "left",
-      "text": "别再附原视频，避免二次扩散"
-    },
-    {
-      "id": "53",
-      "role": "right",
-      "text": "我可以直接报警让他被拘留吗"
-    },
-    {
-      "id": "54",
-      "role": "left",
-      "text": "可以如实报案，但拘留不是必然结果"
-    },
-    {
-      "id": "55",
-      "role": "left",
-      "text": "是否违反治安管理，要看具体行为"
-    },
-    {
-      "id": "56",
-      "role": "left",
-      "text": "是否构成犯罪，还要看情节和证据"
-    },
-    {
-      "id": "57",
-      "role": "left",
-      "text": "不能只凭播放量就断言会判刑"
-    },
-    {
-      "id": "58",
-      "role": "left",
-      "text": "带上原始材料，说明传播和受影响情况"
-    },
-    {
-      "id": "59",
-      "role": "left",
-      "text": "如被威胁、勒索或持续骚扰，及时报警"
-    },
-    {
-      "id": "60",
-      "role": "right",
-      "text": "我能不能曝光他的身份证和住址"
-    },
-    {
-      "id": "61",
-      "role": "left",
-      "text": "不要公开他的隐私，也不要辱骂威胁"
-    },
-    {
-      "id": "62",
-      "role": "left",
-      "text": "把身份线索交给平台、警方或法院"
-    },
-    {
-      "id": "63",
-      "role": "right",
-      "text": "我想要求赔偿，能要多少钱"
-    },
-    {
-      "id": "64",
-      "role": "left",
-      "text": "可以主张停止侵害、消除影响和道歉"
-    },
-    {
-      "id": "65",
-      "role": "left",
-      "text": "赔偿需结合损失、过错和传播范围"
-    },
-    {
-      "id": "66",
-      "role": "left",
-      "text": "严重精神损害可依法主张精神损害赔偿"
-    },
-    {
-      "id": "67",
-      "role": "left",
-      "text": "没有所有AI换脸都适用的固定价目表"
-    },
-    {
-      "id": "68",
-      "role": "right",
-      "text": "他愿意删视频，给我两千，能签吗"
-    },
-    {
-      "id": "69",
-      "role": "left",
-      "text": "先看传播是否停止、影响是否处理"
-    },
-    {
-      "id": "70",
-      "role": "left",
-      "text": "协议写清删除范围、道歉方式和期限"
-    },
-    {
-      "id": "71",
-      "role": "left",
-      "text": "还要写明付款期限及不得再次传播"
-    },
-    {
-      "id": "72",
-      "role": "left",
-      "text": "谨慎签放弃一切追责的概括性条款"
-    },
-    {
-      "id": "73",
-      "role": "left",
-      "text": "民事和解不当然免除其他法律责任"
-    },
-    {
-      "id": "74",
-      "role": "right",
-      "text": "他不理我，或者一直换号发呢"
-    },
-    {
-      "id": "75",
-      "role": "left",
-      "text": "可整理材料向有管辖权的法院起诉"
-    },
-    {
-      "id": "76",
-      "role": "left",
-      "text": "不知道真实身份时，先保留账号线索"
-    },
-    {
-      "id": "77",
-      "role": "left",
-      "text": "可咨询律师通过合法程序申请调取"
-    },
-    {
-      "id": "78",
-      "role": "left",
-      "text": "别买个人信息，也别用非法查人服务"
-    },
-    {
-      "id": "79",
-      "role": "left",
-      "text": "侵害持续且损害难以弥补的"
-    },
-    {
-      "id": "80",
-      "role": "left",
-      "text": "可评估申请人格权侵害禁令"
-    },
-    {
-      "id": "81",
-      "role": "left",
-      "text": "是否准许，由法院结合条件审查"
-    },
-    {
-      "id": "82",
-      "role": "right",
-      "text": "我怕起诉时视频又被更多人看到"
-    },
-    {
-      "id": "83",
-      "role": "left",
-      "text": "向律师说明隐私顾虑，控制材料流转"
-    },
-    {
-      "id": "84",
-      "role": "left",
-      "text": "涉及个人隐私，可依法申请不公开审理"
-    },
-    {
-      "id": "85",
-      "role": "right",
-      "text": "你帮我排一下今天先做什么吧"
-    },
-    {
-      "id": "86",
-      "role": "left",
-      "text": "第一，保存现存原帖和完整聊天"
-    },
-    {
-      "id": "87",
-      "role": "left",
-      "text": "第二，投诉具体链接，请群主制止转发"
-    },
-    {
-      "id": "88",
-      "role": "left",
-      "text": "第三，向对方书面要求停止侵害"
-    },
-    {
-      "id": "89",
-      "role": "left",
-      "text": "第四，整理损失凭证和传播时间线"
-    },
-    {
-      "id": "90",
-      "role": "left",
-      "text": "若威胁升级或继续传播，及时报案"
-    },
-    {
-      "id": "91",
-      "role": "left",
-      "text": "后续再评估协商、起诉或申请禁令"
-    },
-    {
-      "id": "92",
-      "role": "right",
-      "text": "我先留证投诉，不转发原视频了"
-    },
-    {
-      "id": "93",
-      "role": "right",
-      "text": "整理好材料再确认索赔和起诉方案"
-    },
-    {
-      "id": "94",
-      "role": "left",
-      "text": "对，先止住传播，再按证据推进维权"
-    }
+    {"id":"01","role":"right","text":"曹律，公司突然通知我调去仓库"},
+    {"id":"02","role":"right","text":"我原来一直做销售"},
+    {"id":"03","role":"right","text":"底薪八千要降到五千"},
+    {"id":"04","role":"right","text":"我不去，他们说按旷工处理"},
+    {"id":"05","role":"left","text":"500"},
+    {"id":"fee-sent","role":"right","text":"","kind":"transfer","transferId":"consultation-fee","transferAmount":"500.00","transferState":"accepted"},
+    {"id":"fee-receipt","role":"left","text":"","kind":"transfer","transferId":"consultation-fee","transferAmount":"500.00","transferState":"received"},
+    {"id":"08","role":"left","text":"劳动合同岗位怎么写"},
+    {"id":"09","role":"right","text":"写的是销售专员"},
+    {"id":"10","role":"left","text":"调岗通知是书面的吗"},
+    {"id":"11","role":"right","text":"邮件发的，说组织架构调整"},
+    {"id":"12","role":"left","text":"你最近绩效有问题吗"},
+    {"id":"13","role":"right","text":"没有，上月还是部门第二"},
+    {"id":"14","role":"left","text":"那先不要直接拒绝上班"},
+    {"id":"15","role":"right","text":"为什么，调岗明显不合理啊"},
+    {"id":"16","role":"left","text":"不合理也不等于可以旷工"},
+    {"id":"17","role":"left","text":"这是很多人最容易踩的坑"},
+    {"id":"18","role":"left","text":"明天照常到公司打卡"},
+    {"id":"19","role":"left","text":"同时书面提出调岗异议"},
+    {"id":"20","role":"right","text":"怎么写最稳"},
+    {"id":"21","role":"left","text":"可以直接写三句话"},
+    {"id":"22","role":"left","text":"本人不同意本次调岗降薪"},
+    {"id":"23","role":"left","text":"我愿按原合同继续提供劳动"},
+    {"id":"24","role":"left","text":"请安排原岗位或协商解决"},
+    {"id":"25","role":"right","text":"微信发给人事可以吗"},
+    {"id":"26","role":"left","text":"可以，最好邮件也同步"},
+    {"id":"27","role":"right","text":"如果不让我进办公室呢"},
+    {"id":"28","role":"left","text":"到公司全过程尽量留证"},
+    {"id":"29","role":"left","text":"门禁、打卡、定位都保存"},
+    {"id":"30","role":"left","text":"被拦门外可以录像"},
+    {"id":"31","role":"left","text":"再给人事发消息说明已到岗"},
+    {"id":"32","role":"right","text":"他们逼我签调岗确认书呢"},
+    {"id":"33","role":"left","text":"不同意就别随便签"},
+    {"id":"34","role":"left","text":"尤其别签自愿降薪"},
+    {"id":"35","role":"left","text":"也别签个人原因离职"},
+    {"id":"36","role":"right","text":"他们说不签就辞退"},
+    {"id":"37","role":"left","text":"那让公司出书面解除决定"},
+    {"id":"38","role":"left","text":"别替公司写辞职申请"},
+    {"id":"39","role":"right","text":"真辞退我能要2N吗"},
+    {"id":"40","role":"left","text":"先看解除理由是否合法"},
+    {"id":"41","role":"left","text":"如果属于违法解除"},
+    {"id":"42","role":"left","text":"可主张继续履行或赔偿金"},
+    {"id":"43","role":"left","text":"但不是一辞退就自动2N"},
+    {"id":"44","role":"right","text":"如果只发五千工资呢"},
+    {"id":"45","role":"left","text":"工资流水和工资表都保存"},
+    {"id":"46","role":"left","text":"可主张被少发的工资差额"},
+    {"id":"47","role":"right","text":"还要留哪些证据"},
+    {"id":"48","role":"left","text":"合同、调岗通知、聊天记录"},
+    {"id":"49","role":"left","text":"考勤、工资流水、历史绩效"},
+    {"id":"50","role":"right","text":"为什么绩效也要留"},
+    {"id":"51","role":"left","text":"防止公司以后改口"},
+    {"id":"52","role":"left","text":"说你不能胜任原岗位"},
+    {"id":"53","role":"left","text":"你业绩靠前会很重要"},
+    {"id":"54","role":"right","text":"我现在最关键做什么"},
+    {"id":"55","role":"left","text":"正常到岗，书面异议，留证"},
+    {"id":"56","role":"left","text":"不主动制造旷工证据"},
+    {"id":"57","role":"left","text":"让公司决定下一步怎么走"},
+    {"id":"58","role":"right","text":"明白，明天先正常打卡"},
+    {"id":"59","role":"left","text":"对，通知下来再发我看"}
   ]
 }
