@@ -15,15 +15,22 @@ export const WeChatImageScroll: React.FC<{
   imageWidth?: number;
   imageHeight?: number;
   holdFrames?: number;
+  frameFill?: number;
+  maxScale?: number;
 }> = ({
   imageSrc = "generated/daily-chat.png",
   imageWidth = LONG_IMAGE_WIDTH,
   imageHeight = LONG_IMAGE_HEIGHT,
   holdFrames = 45,
+  frameFill = 0.9,
+  maxScale = 1.6,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();
-  const renderedWidth = Math.min(width, imageWidth);
+  const renderedWidth =
+    width <= imageWidth
+      ? width
+      : Math.min(width * frameFill, imageWidth * maxScale);
   const renderedHeight = (imageHeight / imageWidth) * renderedWidth;
   const overflow = Math.max(0, renderedHeight - height);
   const left = (width - renderedWidth) / 2;

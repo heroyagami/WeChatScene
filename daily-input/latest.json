@@ -1,29 +1,33 @@
 {
   "date": "2026-09-14",
-  "topic": "公司发了Offer又反悔，求职者应该怎么办",
-  "source": "content/topic-sources/02-劳动法课程目录.md：02",
+  "topic": "用AI换脸“恶搞”他人，受害人该怎么维权？",
+  "source": "content/topic-sources/01-民法典课程目录.md：044",
   "messages": [
     {
       "id": "01",
       "role": "right",
-      "text": "曹律师，公司发了Offer又突然反悔，我该怎么办"
+      "text": "曹律，有人把我的脸AI换到擦边视频里"
     },
     {
       "id": "02",
-      "role": "left",
-      "text": "先确认Offer里的岗位、薪资和入职时间是否明确"
+      "role": "right",
+      "text": "还发到群里和朋友圈，很多人都看到了"
     },
     {
       "id": "03",
       "role": "right",
-      "text": "都写清楚了，我也已经辞掉原来的工作"
+      "text": "现在到处有人截图转发，我根本删不干净"
     },
     {
       "id": "04",
-      "role": "left",
-      "text": "把Offer、沟通记录和离职材料完整保存"
+      "role": "right",
+      "text": "对方说只是恶搞，我能让他赔吗"
     },
-    { "id": "05", "role": "right", "text": "我先支付咨询费" },
+    {
+      "id": "05",
+      "role": "left",
+      "text": "500"
+    },
     {
       "id": "fee-sent",
       "role": "right",
@@ -33,27 +37,35 @@
       "transferAmount": "500.00",
       "transferState": "accepted"
     },
-    { "id": "06", "role": "left", "text": "收到" },
     {
-      "id": "fee-receipt",
+      "id": "07",
       "role": "left",
-      "text": "",
-      "kind": "transfer",
-      "transferId": "consultation-fee",
-      "transferAmount": "500.00",
-      "transferState": "received"
+      "text": "先别只催他删除，马上固定传播证据"
     },
-    { "id": "07", "role": "left", "text": "还要核对公司撤回Offer的理由和时间" },
-    { "id": "08", "role": "right", "text": "已经产生的损失可以主张吗" },
+    {
+      "id": "08",
+      "role": "right",
+      "text": "具体要留哪些"
+    },
     {
       "id": "09",
       "role": "left",
-      "text": "可以结合信赖损失和双方过错进一步判断"
+      "text": "原视频、账号、群聊、转发记录和发布时间都保存"
     },
     {
       "id": "10",
       "role": "left",
-      "text": "先整理证据和损失凭证，再确定处理方案"
+      "text": "AI换脸后公开传播，可能同时侵害肖像权和名誉权"
+    },
+    {
+      "id": "11",
+      "role": "right",
+      "text": "已经影响我的工作和生活了"
+    },
+    {
+      "id": "12",
+      "role": "left",
+      "text": "可先要求停止传播、赔礼道歉，再按损失主张赔偿"
     }
   ]
 }
