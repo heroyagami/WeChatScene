@@ -27,6 +27,12 @@ const validDailyMessages = (): ChatMessage[] => [
     transferAmount: "500.00",
     transferState: "accepted",
   },
+  { id: "07", role: "left", text: "先固定现有证据" },
+  { id: "08", role: "right", text: "具体要留哪些" },
+  { id: "09", role: "left", text: "原始内容和转发记录都保存" },
+  { id: "10", role: "left", text: "再判断对应的法律关系" },
+  { id: "11", role: "right", text: "已经影响正常生活了" },
+  { id: "12", role: "left", text: "整理后再确定下一步方案" },
   {
     id: "fee-receipt",
     role: "left",
@@ -36,12 +42,6 @@ const validDailyMessages = (): ChatMessage[] => [
     transferAmount: "500.00",
     transferState: "received",
   },
-  { id: "07", role: "left", text: "先固定现有证据" },
-  { id: "08", role: "right", text: "具体要留哪些" },
-  { id: "09", role: "left", text: "原始内容和转发记录都保存" },
-  { id: "10", role: "left", text: "再判断对应的法律关系" },
-  { id: "11", role: "right", text: "已经影响正常生活了" },
-  { id: "12", role: "left", text: "整理后再确定下一步方案" },
 ];
 
 test("extracts source entries without changing their order", () => {
@@ -59,7 +59,7 @@ test("selects the same topic for the same production date", () => {
   );
 });
 
-test("daily V2 accepts 3—5 opening questions and requires both transfer cards", () => {
+test("daily V2 accepts 3—5 opening questions, starts with accepted card and ends with receipt", () => {
   const valid = validDailyMessages();
   assert.doesNotThrow(() => validateDailyMessages(valid));
 
@@ -83,8 +83,13 @@ test("daily V2 accepts 3—5 opening questions and requires both transfer cards"
   wrongFee[4] = { ...wrongFee[4], text: "收到" };
   assert.throws(() => validateDailyMessages(wrongFee));
 
+  const receiptTooEarly = validDailyMessages();
+  const receipt = receiptTooEarly.pop()!;
+  receiptTooEarly.splice(6, 0, receipt);
+  assert.throws(() => validateDailyMessages(receiptTooEarly));
+
   const missingReceipt = validDailyMessages();
-  missingReceipt.splice(6, 1);
+  missingReceipt.pop();
   assert.throws(() => validateDailyMessages(missingReceipt));
 });
 
@@ -105,12 +110,14 @@ import {
 
 test("long consultations are accepted and are never cropped to 3200 pixels", () => {
   const messages = validDailyMessages();
+  const receipt = messages.pop()!;
   for (let i = 0; i < 80; i++)
     messages.push({
       id: `extra-${i}`,
       role: "left",
       text: "保存原始证据，再按实际情况推进维权",
     });
+  messages.push(receipt);
   assert.doesNotThrow(() => validateDailyMessages(messages));
   assert.ok(estimateLongImageHeight(messages) > 3200);
   assert.ok(
