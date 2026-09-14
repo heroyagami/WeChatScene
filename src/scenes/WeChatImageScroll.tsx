@@ -22,8 +22,8 @@ export const WeChatImageScroll: React.FC<{
   imageWidth = LONG_IMAGE_WIDTH,
   imageHeight = LONG_IMAGE_HEIGHT,
   holdFrames = 45,
-  frameFill = 0.9,
-  maxScale = 1.6,
+  frameFill = 0.95,
+  maxScale = 1.7,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();

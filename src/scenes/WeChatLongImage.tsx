@@ -27,7 +27,7 @@ export const WeChatLongImage: React.FC<{ messages: ChatMessage[] }> = ({
     style={{
       backgroundColor: "#ededed",
       fontFamily:
-        "-apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif",
+        "'Noto Sans CJK SC', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif",
       padding: "36px 42px 72px",
     }}
   >

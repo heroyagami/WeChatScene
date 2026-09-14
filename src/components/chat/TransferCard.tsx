@@ -65,7 +65,10 @@ export const TransferCard: React.FC<{
           strokeLinejoin="round"
         />
       )}
-      <g fill="white" fontFamily="Arial, 'Microsoft YaHei', sans-serif">
+      <g
+        fill="white"
+        fontFamily="'Noto Sans CJK SC', 'Noto Sans SC', Arial, 'Microsoft YaHei', sans-serif"
+      >
         <text x="157" y="72" fontSize="40">
           ¥{formatAmount(amount)}
         </text>
