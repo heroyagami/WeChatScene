@@ -1,0 +1,33 @@
+{
+  "name": "@heroyagami/wechat-scene",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "remotion studio src/remotion.tsx",
+    "compositions": "remotion compositions src/remotion.tsx",
+    "render": "remotion render src/remotion.tsx WeChatPortrait out/wechat.mp4 --muted",
+    "still": "remotion still src/remotion.tsx WeChatPortrait out/wechat.png",
+    "cards": "remotion still src/remotion.tsx TransferSent out/transfer-sent.png --image-format=png && remotion still src/remotion.tsx TransferReceived out/transfer-received.png --image-format=png",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "verify": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.438",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.438",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "@types/node": "22.13.10",
+    "typescript": "5.9.3",
+    "tsx": "4.20.5"
+  }
+}

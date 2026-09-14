@@ -1,0 +1,13 @@
+node_modules/
+out/
+dist/
+build/
+.cache/
+.remotion/
+.env
+.env.*
+!.env.example
+*.log
+*.jsonl
+private/
+inputs/
