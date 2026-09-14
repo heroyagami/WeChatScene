@@ -1,32 +1,65 @@
-import {textLines} from '../../scenes/reading';
+import { textLines } from "../../scenes/reading";
 import React from "react";
 import { Img, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { getMessageStartFrame } from "./ChatEngine";
 import { TransferCard } from "./TransferCard";
 import type { ChatMessage } from "./types";
+import type { ConsultantAvatarCrop } from "./consultantAvatars";
 
 const resolveAsset = (src: string) => {
   if (/^(?:https?:|data:|blob:)/.test(src)) return src;
   return staticFile(src.replace(/^public\//, ""));
 };
 
-const Avatar: React.FC<{ message: ChatMessage }> = ({ message }) => (
-  <Img
-    src={resolveAsset(
-      message.avatar ??
-        (message.role === "left"
-          ? "img/wechat-avatars/caoyide-wechat-avatar.png"
-          : "img/wechat-right-avatar.jpg"),
-    )}
-    style={{
-      width: 88,
-      height: 88,
-      borderRadius: 7,
-      objectFit: "cover",
-      flex: "0 0 auto",
-    }}
-  />
-);
+const Avatar: React.FC<{
+  message: ChatMessage;
+  consultantAvatar?: ConsultantAvatarCrop;
+}> = ({ message, consultantAvatar }) => {
+  if (message.role === "right" && !message.avatar && consultantAvatar) {
+    const scale = 88 / consultantAvatar.size;
+    return (
+      <div
+        style={{
+          position: "relative",
+          width: 88,
+          height: 88,
+          borderRadius: 7,
+          overflow: "hidden",
+          flex: "0 0 auto",
+        }}
+      >
+        <Img
+          src={resolveAsset(consultantAvatar.src)}
+          style={{
+            position: "absolute",
+            width: consultantAvatar.sourceWidth * scale,
+            height: consultantAvatar.sourceHeight * scale,
+            left: -consultantAvatar.x * scale,
+            top: -consultantAvatar.y * scale,
+            maxWidth: "none",
+          }}
+        />
+      </div>
+    );
+  }
+  return (
+    <Img
+      src={resolveAsset(
+        message.avatar ??
+          (message.role === "left"
+            ? "img/wechat-avatars/caoyide-wechat-avatar.png"
+            : "img/wechat-right-avatar.jpg"),
+      )}
+      style={{
+        width: 88,
+        height: 88,
+        borderRadius: 7,
+        objectFit: "cover",
+        flex: "0 0 auto",
+      }}
+    />
+  );
+};
 
 const VideoMessageCard: React.FC<{ message: ChatMessage }> = ({ message }) => {
   if (!message.media) return null;
@@ -118,7 +151,15 @@ export const WeChatMessage: React.FC<{
   index: number;
   animated?: boolean;
   preciseLayout?: boolean;
-}> = ({ message, previous, index, animated = true, preciseLayout = false }) => {
+  consultantAvatar?: ConsultantAvatarCrop;
+}> = ({
+  message,
+  previous,
+  index,
+  animated = true,
+  preciseLayout = false,
+  consultantAvatar,
+}) => {
   const frame = useCurrentFrame();
   const entryFrame = getMessageStartFrame(message, index);
   const opacity = animated
@@ -169,7 +210,7 @@ export const WeChatMessage: React.FC<{
           gap: 24,
         }}
       >
-        <Avatar message={message} />
+        <Avatar message={message} consultantAvatar={consultantAvatar} />
         <div style={{ position: "relative", maxWidth: "calc(100% - 112px)" }}>
           {message.kind !== "transfer" ? (
             <span
@@ -243,7 +284,13 @@ export const WeChatMessage: React.FC<{
                   : "0 1px 1px rgba(0,0,0,.04)",
               }}
             >
-              {preciseLayout ? textLines(message.text).map((line, i) => <div key={i} style={{whiteSpace: "pre"}}>{line || "\u00a0"}</div>) : message.text}
+              {preciseLayout
+                ? textLines(message.text).map((line, i) => (
+                    <div key={i} style={{ whiteSpace: "pre" }}>
+                      {line || "\u00a0"}
+                    </div>
+                  ))
+                : message.text}
             </div>
           )}
         </div>

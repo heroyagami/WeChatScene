@@ -7,6 +7,10 @@ import {
 } from "../scripts/daily-lib";
 import { estimateLongImageHeight } from "../src/scenes/WeChatLongImage";
 import type { ChatMessage } from "../src/components/chat/types";
+import {
+  CONSULTANT_AVATARS,
+  selectConsultantAvatar,
+} from "../src/components/chat/consultantAvatars";
 
 const validDailyMessages = (): ChatMessage[] => [
   { id: "01", role: "right", text: "曹律，我遇到一个麻烦" },
@@ -80,31 +84,56 @@ test("calculates a bounded long-image height from the complete message list", ()
   );
 });
 
-import { buildReadingTimeline, messageRows, readingUnits } from '../src/scenes/reading';
+import {
+  buildReadingTimeline,
+  messageRows,
+  readingUnits,
+} from "../src/scenes/reading";
 
-test('long consultations are accepted and are never cropped to 3200 pixels', () => {
+test("long consultations are accepted and are never cropped to 3200 pixels", () => {
   const messages = validDailyMessages();
-  for (let i=0; i<80; i++) messages.push({id:`extra-${i}`,role:'left',text:'保存原始证据，再按实际情况推进维权'});
+  for (let i = 0; i < 80; i++)
+    messages.push({
+      id: `extra-${i}`,
+      role: "left",
+      text: "保存原始证据，再按实际情况推进维权",
+    });
   assert.doesNotThrow(() => validateDailyMessages(messages));
-  assert.ok(estimateLongImageHeight(messages)>3200);
-  assert.ok(estimateLongImageHeight(messages)>messageRows(messages).at(-1)!.bottom);
+  assert.ok(estimateLongImageHeight(messages) > 3200);
+  assert.ok(
+    estimateLongImageHeight(messages) > messageRows(messages).at(-1)!.bottom,
+  );
 });
 
-test('reading timeline preserves opening, fits payment and reaches the final message', () => {
-  const messages=validDailyMessages();
-  const t=buildReadingTimeline(messages);
-  const rows=messageRows(messages);
-  assert.ok(rows[4].bottom*t.scale<1080);
-  assert.ok(rows[5].top*t.scale>=1080);
-  assert.equal(t.points[0].y,0);
-  assert.equal(t.points[1].y,0);
-  assert.ok(t.points[1].frame>45);
-  for(let i=1;i<t.points.length;i++) {
-    assert.ok(t.points[i].frame>t.points[i-1].frame);
-    assert.ok(t.points[i].y<=t.points[i-1].y);
+test("reading timeline preserves opening, fits payment and reaches the final message", () => {
+  const messages = validDailyMessages();
+  const t = buildReadingTimeline(messages);
+  const rows = messageRows(messages);
+  assert.ok(rows[4].bottom * t.scale < 1080);
+  assert.ok(rows[5].top * t.scale >= 1080);
+  assert.equal(t.points[0].y, 0);
+  assert.equal(t.points[1].y, 0);
+  assert.ok(t.points[1].frame > 45);
+  for (let i = 1; i < t.points.length; i++) {
+    assert.ok(t.points[i].frame > t.points[i - 1].frame);
+    assert.ok(t.points[i].y <= t.points[i - 1].y);
   }
-  assert.ok(rows.at(-1)!.bottom*t.scale+t.points.at(-1)!.y<=1080);
-  assert.ok(buildReadingTimeline(messages,180).durationInFrames>t.durationInFrames);
-  assert.throws(()=>buildReadingTimeline(messages,0));
-  assert.equal(readingUnits('你好，世界！'),4);
+  assert.ok(rows.at(-1)!.bottom * t.scale + t.points.at(-1)!.y <= 1080);
+  assert.ok(
+    buildReadingTimeline(messages, 180).durationInFrames > t.durationInFrames,
+  );
+  assert.throws(() => buildReadingTimeline(messages, 0));
+  assert.equal(readingUnits("你好，世界！"), 4);
+});
+
+test("rotates through all captured consultant avatars deterministically", () => {
+  assert.equal(CONSULTANT_AVATARS.length, 70);
+  assert.deepEqual(
+    selectConsultantAvatar("2026-09-14"),
+    selectConsultantAvatar("2026-09-14"),
+  );
+  assert.notDeepEqual(
+    selectConsultantAvatar("2026-09-14"),
+    selectConsultantAvatar("2026-09-15"),
+  );
 });

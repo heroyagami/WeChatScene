@@ -21,3 +21,8 @@ export {
   estimateLongImageHeight,
 } from "./scenes/WeChatLongImage";
 export { WeChatImageScroll } from "./scenes/WeChatImageScroll";
+export {
+  CONSULTANT_AVATARS,
+  selectConsultantAvatar,
+} from "./components/chat/consultantAvatars";
+export type { ConsultantAvatarCrop } from "./components/chat/consultantAvatars";

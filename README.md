@@ -50,7 +50,8 @@ JSON 输入见 `examples/consultation.json`。CLI 入口使用 `sceneSchema` 检
 - `layout` 支持 `full / portrait / landscape-centered / landscape-left`。
 - `showTopBar/showInputBar` 默认关闭。
 - `image/video` 使用 `media.src`，video 当前为静态缩略卡。
-- 默认左侧为律师，右侧为咨询人。
+- 默认左侧为曹义德律师，右侧为咨询人。
+- 每日视频从两张通讯录截图中的70个完整头像按日期轮换；同一条视频内咨询者头像保持一致，截图昵称和界面不会显示。
 - 私人输入放 `private/`、`inputs/`；生成结果放 `out/`。
 
 ## 每日 V2：对标式冷开场
@@ -101,6 +102,7 @@ npm run daily:render
 ```
 
 更多生产约束见 `AGENTS.md`。
+
 ## V3 阅读节奏与头像
 
 曹律师固定使用 `public/img/wechat-avatars/caoyide-wechat-avatar.png`（用户提供的490头像）。每次 prepare 从现有 `wechat-avatar-*.png` 库随机选一个咨询人头像，写入全部右侧消息；渲染期间不再随机。归档生成后的 scene JSON 即可复现头像选择。

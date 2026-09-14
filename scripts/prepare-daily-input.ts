@@ -1,11 +1,10 @@
-import {randomInt} from 'node:crypto';
-import {readdir} from 'node:fs/promises';
-import {buildReadingTimeline} from '../src/scenes/reading';
+import { buildReadingTimeline } from "../src/scenes/reading";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 import { sceneSchema } from "../src/schema";
 import { validateDailyMessages } from "./daily-lib";
+import { selectConsultantAvatar } from "../src/components/chat/consultantAvatars";
 
 const root = process.cwd();
 const inputPath = path.join(
@@ -33,19 +32,19 @@ const parsedScene = sceneSchema.parse({
   durationInFrames: 1800,
 });
 validateDailyMessages(parsedScene.messages);
-const avatars = (await readdir(path.join(root, 'public/img/wechat-avatars'))).filter(x => /^wechat-avatar-.*\.png$/.test(x)).sort();
-if (!avatars.length) throw new Error('咨询人头像库为空');
-const clientAvatar = 'img/wechat-avatars/' + avatars[randomInt(avatars.length)];
-parsedScene.messages = parsedScene.messages.map(m => ({...m, avatar: m.role === 'right' ? clientAvatar : 'img/wechat-avatars/caoyide-wechat-avatar.png'}));
-const timeline = buildReadingTimeline(parsedScene.messages, input.readingCpm ?? 360);
+const timeline = buildReadingTimeline(
+  parsedScene.messages,
+  input.readingCpm ?? 360,
+);
 parsedScene.durationInFrames = timeline.durationInFrames;
 const imageHeight = timeline.imageHeight;
+const consultantAvatar = selectConsultantAvatar(input.date);
 
 await mkdir(path.join(root, "generated"), { recursive: true });
 await mkdir(path.join(root, "public/generated"), { recursive: true });
 await writeFile(
   path.join(root, "generated/daily-scene.json"),
-  `${JSON.stringify(parsedScene, null, 2)}\n`,
+  `${JSON.stringify({ ...parsedScene, consultantAvatar }, null, 2)}\n`,
 );
 await writeFile(
   path.join(root, "generated/scroll-props.json"),
@@ -53,23 +52,27 @@ await writeFile(
 );
 await writeFile(
   path.join(root, "generated/daily-manifest.json"),
-  `${JSON.stringify({
-    date: input.date,
-    topic: input.topic,
-    source: input.source,
-    producer: "chatgpt-chat-mode",
-    input: path.relative(root, inputPath).replaceAll("\\", "/"),
-    render: {
-      width: 1920,
-      height: 1080,
-      aspectRatio: "16:9",
-      fps: 30,
-      durationSeconds: timeline.durationInFrames / 30,
-      reading: timeline,
-      clientAvatar,
-      audio: false,
+  `${JSON.stringify(
+    {
+      date: input.date,
+      topic: input.topic,
+      source: input.source,
+      producer: "chatgpt-chat-mode",
+      input: path.relative(root, inputPath).replaceAll("\\", "/"),
+      render: {
+        width: 1920,
+        height: 1080,
+        aspectRatio: "16:9",
+        fps: 30,
+        durationSeconds: timeline.durationInFrames / 30,
+        reading: timeline,
+        consultantAvatar,
+        audio: false,
+      },
     },
-  }, null, 2)}\n`,
+    null,
+    2,
+  )}\n`,
 );
 console.log(
   `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\nrender=1920x1080@30fps/${timeline.durationInFrames / 30}s`,
