@@ -19,12 +19,14 @@ export const WeChatImageScroll: React.FC<{
   imageSrc = "generated/daily-chat.png",
   imageWidth = LONG_IMAGE_WIDTH,
   imageHeight = LONG_IMAGE_HEIGHT,
-  holdFrames = 24,
+  holdFrames = 45,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();
-  const renderedHeight = (imageHeight / imageWidth) * width;
+  const renderedWidth = Math.min(width, imageWidth);
+  const renderedHeight = (imageHeight / imageWidth) * renderedWidth;
   const overflow = Math.max(0, renderedHeight - height);
+  const left = (width - renderedWidth) / 2;
   const y = interpolate(
     frame,
     [holdFrames, Math.max(holdFrames + 1, durationInFrames - holdFrames - 1)],
@@ -46,9 +48,9 @@ export const WeChatImageScroll: React.FC<{
         }
         style={{
           position: "absolute",
-          left: 0,
+          left,
           top: 0,
-          width,
+          width: renderedWidth,
           height: renderedHeight,
           transform: `translateY(${y}px)`,
         }}
