@@ -13,6 +13,10 @@ export const formatAmount = (amount: string | number = 500) => {
     throw new Error("转账金额必须大于0");
   return value.toFixed(2);
 };
+const displayAmount = (amount: string | number = 500) => {
+  const formatted = formatAmount(amount);
+  return formatted.endsWith(".00") ? formatted.slice(0, -3) : formatted;
+};
 
 /** A screenshot-style transfer bubble. The tail belongs to this component. */
 export const TransferCard: React.FC<{
@@ -70,7 +74,7 @@ export const TransferCard: React.FC<{
         fontFamily="'Noto Sans CJK SC', 'Noto Sans SC', Arial, 'Microsoft YaHei', sans-serif"
       >
         <text x="157" y="72" fontSize="40">
-          ¥{formatAmount(amount)}
+          ¥{displayAmount(amount)}
         </text>
         <text x="157" y="119" fontSize="32">
           {TRANSFER_LABELS[state]}

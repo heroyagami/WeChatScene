@@ -1,7 +1,6 @@
 import React from "react";
 import {
   AbsoluteFill,
-  Easing,
   Img,
   interpolate,
   staticFile,
@@ -41,7 +40,6 @@ export const WeChatImageScroll: React.FC<{
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
-      easing: Easing.inOut(Easing.cubic),
     },
   );
 
