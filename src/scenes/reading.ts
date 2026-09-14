@@ -9,6 +9,7 @@ export const textLines = (text: string) =>
       (_, i) => chars.slice(i * 20, (i + 1) * 20).join(""),
     );
   });
+
 export const messageRows = (messages: ChatMessage[]) => {
   let bottom = 36;
   return messages.map((m, i) => {
@@ -22,14 +23,17 @@ export const messageRows = (messages: ChatMessage[]) => {
     return { top, bottom };
   });
 };
+
 export const readingUnits = (text: string) =>
   Array.from(text.replace(/[\s\p{P}]/gu, "")).length;
+
 export const buildReadingTimeline = (
   messages: ChatMessage[],
   cpm = 360,
   fps = 30,
 ) => {
   if (!Number.isFinite(cpm) || cpm <= 0) throw new Error("阅读速度必须为正数");
+
   const rows = messageRows(messages);
   const imageHeight = Math.max(1500, (rows.at(-1)?.bottom ?? 36) + 72);
   const feeCardIndex = messages.findIndex(
@@ -37,43 +41,42 @@ export const buildReadingTimeline = (
       message.kind === "transfer" && message.transferState === "accepted",
   );
   const feePromptIndex = Math.max(0, feeCardIndex - 1);
-  // Fit the variable-length question stack and the lawyer's 500 reply into the opening.
+
+  // Keep the opening question stack and the lawyer's "500" visible in frame 1.
   const scale = Math.min(
     1.7,
     1080 / ((rows[feePromptIndex]?.bottom ?? 600) + 18),
   );
   const overflow = Math.max(0, imageHeight * scale - 1080);
-  let frame = 0;
-  const points = [{ frame: 0, y: 0 }];
-  const readFrames = (text: string) =>
-    Math.ceil(Math.max(0.8, (readingUnits(text) * 60) / cpm + 0.25) * fps);
-  frame += readFrames(
-    messages
-      .slice(0, feePromptIndex + 1)
-      .map((message) => message.text)
-      .join(""),
+
+  // Reading speed determines only the TOTAL duration. The camera itself never
+  // pauses: it moves linearly from the top of the long image to the bottom.
+  const totalReadingUnits = messages.reduce(
+    (sum, message) => sum + readingUnits(message.text),
+    0,
   );
-  points.push({ frame, y: 0 });
-  for (let i = Math.max(0, feeCardIndex); i < messages.length; i++) {
-    const y = -Math.min(
-      overflow,
-      Math.max(0, rows[i].bottom * scale - 1080 + 72),
-    );
-    frame += Math.ceil(0.35 * fps);
-    points.push({ frame, y });
-    frame +=
-      messages[i].kind === "transfer"
-        ? Math.ceil(1.2 * fps)
-        : readFrames(messages[i].text);
-    points.push({ frame, y });
-  }
+  const transferCount = messages.filter((message) => message.kind === "transfer").length;
+  const textSeconds = (totalReadingUnits * 60) / cpm;
+  // A small global comprehension allowance keeps short chat bubbles readable
+  // without introducing per-message stops. Transfer cards also need a little
+  // visual recognition time, again added only to the total duration.
+  const comprehensionSeconds = messages.length * 0.12 + transferCount * 0.8;
+  const durationSeconds = Math.max(8, textSeconds + comprehensionSeconds);
+  const durationInFrames = Math.max(2, Math.ceil(durationSeconds * fps));
+
+  const points = [
+    { frame: 0, y: 0 },
+    { frame: durationInFrames - 1, y: -overflow },
+  ];
+
   return {
     points,
     imageHeight,
     scale,
-    durationInFrames: frame + 1,
+    durationInFrames,
     cpm,
     fps,
-    readingUnits: messages.reduce((n, m) => n + readingUnits(m.text), 0),
+    readingUnits: totalReadingUnits,
+    motion: "linear-continuous" as const,
   };
 };
