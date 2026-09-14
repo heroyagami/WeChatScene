@@ -14,8 +14,8 @@ const Avatar: React.FC<{ message: ChatMessage }> = ({ message }) => (
     src={resolveAsset(
       message.avatar ??
         (message.role === "left"
-          ? "img/wechat-left-avatar.jpg"
-          : "img/wechat-avatars/caoyide-wechat-avatar.png"),
+          ? "img/wechat-avatars/caoyide-wechat-avatar.png"
+          : "img/wechat-right-avatar.jpg"),
     )}
     style={{
       width: 88,

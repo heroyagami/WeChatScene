@@ -13,8 +13,8 @@ test("consultation creates one 500-yuan transfer and its opposite-side receipt",
   assert.deepEqual(
     pair.map((m) => [m.role, m.transferAmount, m.transferState, m.transferId]),
     [
-      ["left", "500.00", "accepted", "a"],
-      ["right", "500.00", "received", "a"],
+      ["right", "500.00", "accepted", "a"],
+      ["left", "500.00", "received", "a"],
     ],
   );
   validateTransfers(pair);
@@ -25,10 +25,15 @@ test("rejects missing sender, duplicate receipt, incorrect amount and wrong side
     [receipt],
     [sent, receipt, { ...receipt, id: "extra" }],
     [sent, { ...receipt, transferAmount: "600" }],
-    [sent, { ...receipt, role: "left" as const }],
+    [sent, { ...receipt, role: "right" as const }],
     [{ ...sent, transferState: "pending" as const }, receipt],
   ])
     assert.throws(() => validateTransfers(messages));
+});
+test("enforces consultant on the right and lawyer receipt on the left", () => {
+  const [sent, receipt] = createConsultationTransfer({ id: "a" });
+  assert.throws(() => validateTransfers([{ ...sent, role: "left" }, receipt]));
+  assert.throws(() => validateTransfers([sent, { ...receipt, role: "right" }]));
 });
 test("rejects duplicate message ids", () =>
   assert.throws(() =>

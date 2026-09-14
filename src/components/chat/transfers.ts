@@ -16,7 +16,7 @@ export function createConsultationTransfer({
   return [
     {
       id: `${id}-sent`,
-      role: "left",
+      role: "right",
       text: "咨询费",
       kind: "transfer",
       transferId: id,
@@ -26,7 +26,7 @@ export function createConsultationTransfer({
     },
     {
       id: `${id}-receipt`,
-      role: "right",
+      role: "left",
       text: "",
       kind: "transfer",
       transferId: id,
@@ -51,6 +51,10 @@ export function validateTransfers(messages: ChatMessage[]) {
       message.transferState ??
       (message.transferStatus === "已收款" ? "received" : "accepted");
     if (state === "received") {
+      if (message.role !== "left")
+        throw new Error(
+          `曹义德律师的收款回执必须位于左侧: ${message.transferId}`,
+        );
       const original = sent.get(message.transferId);
       if (
         !original ||
@@ -64,6 +68,8 @@ export function validateTransfers(messages: ChatMessage[]) {
         throw new Error(`重复收款: ${message.transferId}`);
       receipts.add(message.transferId);
     } else {
+      if (message.role !== "right")
+        throw new Error(`咨询人的转账必须位于右侧: ${message.transferId}`);
       if (sent.has(message.transferId))
         throw new Error(`重复转账: ${message.transferId}`);
       sent.set(message.transferId, message);

@@ -22,7 +22,7 @@ npx remotion render src/remotion.tsx WeChatLandscape out/landscape.mp4
 npm run cards
 ```
 
-cards 输出两张真正含透明通道的PNG：out/transfer-sent.png（左尖角，已被接收）与 out/transfer-received.png（右尖角，已收款）。可直接复用组件或重新导出其他金额。
+cards 输出两张真正含透明通道的PNG：out/transfer-sent.png（右尖角，咨询人发起）与 out/transfer-received.png（左尖角，曹义德律师收款）。可直接复用组件或重新导出其他金额。
 
 预先导出的500元素材已放在 public/transfer-cards/，可直接用 staticFile('transfer-cards/transfer-sent.png') 和 staticFile('transfer-cards/transfer-received.png') 调用。
 
@@ -39,8 +39,8 @@ import {
 const [sent, receipt] = createConsultationTransfer({ id: "consultation-001" });
 const messages = [
   sent,
-  { id: "fee-note", role: "left" as const, text: "咨询费" },
-  { id: "reply", role: "right" as const, text: "收到" },
+  { id: "fee-note", role: "right" as const, text: "咨询费" },
+  { id: "reply", role: "left" as const, text: "收到" },
   receipt,
 ];
 // 放在调用方 Composition/Sequence 内，继承其帧数和尺寸
@@ -51,8 +51,8 @@ const messages = [
 
 ```tsx
 import { TransferCard } from "@heroyagami/wechat-scene";
-<TransferCard amount={500} state="accepted" side="left" />;
-<TransferCard amount={500} state="received" side="right" />;
+<TransferCard amount={500} state="accepted" side="right" />;
+<TransferCard amount={500} state="received" side="left" />;
 ```
 
 ## 输入与时间轴
@@ -65,7 +65,7 @@ JSON 输入见 examples/consultation.json。CLI 入口使用 sceneSchema 检查�
 - width、height、fps、durationInFrames 可由 JSON 覆盖。调用方按音频/SRT提供场景时长，组件不推断配音时间。
 - showTopBar/showInputBar 默认 false；启用后为原生微信栏位，不是视频标题或品牌条。
 - image/video 使用 media.src；video 是静态缩略卡，不会播放素材音视频。
-- 默认左侧为示例头像，右侧为曹义德律师专用微信头像。素材库位于 public/img/wechat-avatars。
+- 默认左侧为曹义德律师专用微信头像，右侧为咨询人示例头像。素材库位于 public/img/wechat-avatars。
 - 私人脚本、照片、音频和生产输入放 private/、inputs/；生成结果放 out/，这些目录已忽略。
 
 来源与边界见 MIGRATION.md。此前图片生成的卡片不是本组件依赖；本仓库直接用 SVG 绘制，金额、状态和左右位置均可调整。

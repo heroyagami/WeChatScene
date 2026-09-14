@@ -15,17 +15,17 @@ const Landscape = {
 // Space around the SVG preserves its tail; the page background remains transparent.
 const Sent = () => (
   <div style={{ padding: 16 }}>
-    <TransferCard side="left" state="accepted" width={604} />
+    <TransferCard side="right" state="accepted" width={604} />
   </div>
 );
 const Received = () => (
   <div style={{ padding: 16 }}>
-    <TransferCard side="right" state="received" width={604} />
+    <TransferCard side="left" state="received" width={604} />
   </div>
 );
 const Pending = () => (
   <div style={{ padding: 16 }}>
-    <TransferCard side="left" state="pending" width={604} />
+    <TransferCard side="right" state="pending" width={604} />
   </div>
 );
 const Root = () => (

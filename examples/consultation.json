@@ -9,31 +9,31 @@
   "messages": [
     {
       "id": "1",
-      "role": "left",
+      "role": "right",
       "text": "律师，我想咨询一下",
       "timeLabel": "昨天 23:33"
     },
-    { "id": "2", "role": "right", "text": "可以，先把事情经过发给我" },
+    { "id": "2", "role": "left", "text": "可以，先把事情经过发给我" },
     {
       "id": "fee-sent",
-      "role": "left",
+      "role": "right",
       "text": "",
       "kind": "transfer",
       "transferId": "fee-001",
       "transferAmount": "500.00",
       "transferState": "accepted"
     },
-    { "id": "3", "role": "left", "text": "咨询费" },
-    { "id": "4", "role": "right", "text": "收到" },
+    { "id": "3", "role": "right", "text": "咨询费" },
+    { "id": "4", "role": "left", "text": "收到" },
     {
       "id": "fee-receipt",
-      "role": "right",
+      "role": "left",
       "text": "",
       "kind": "transfer",
       "transferId": "fee-001",
       "transferAmount": "500.00",
       "transferState": "received"
     },
-    { "id": "5", "role": "right", "text": "我先帮你梳理一下" }
+    { "id": "5", "role": "left", "text": "我先帮你梳理一下" }
   ]
 }
