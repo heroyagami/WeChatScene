@@ -38,6 +38,15 @@
       "transferState": "accepted"
     },
     {
+      "id": "fee-receipt",
+      "role": "left",
+      "text": "",
+      "kind": "transfer",
+      "transferId": "consultation-fee",
+      "transferAmount": "500.00",
+      "transferState": "received"
+    },
+    {
       "id": "07",
       "role": "left",
       "text": "先确认一下，是你的脸清楚可辨吗"

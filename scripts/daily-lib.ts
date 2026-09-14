@@ -29,19 +29,30 @@ export const validateDailyMessages = (messages: ChatMessage[]) => {
       throw new Error("咨询人使用默认头像，无需由GPT指定头像");
   }
 
-  const opening = messages.slice(0, 4);
-  if (opening.some((message) => message.role !== "right" || isTransfer(message)))
-    throw new Error("第1—4条必须是咨询人右侧连续提问");
+  const feePromptIndex = messages.findIndex(
+    (message) =>
+      message.role === "left" &&
+      !isTransfer(message) &&
+      message.text.trim() === "500",
+  );
+  if (feePromptIndex < 3 || feePromptIndex > 5)
+    throw new Error("开场必须是咨询人右侧连续3—5条提问，随后律师回复500");
 
-  const feePrompt = messages[4];
+  const opening = messages.slice(0, feePromptIndex);
+  if (
+    opening.some((message) => message.role !== "right" || isTransfer(message))
+  )
+    throw new Error("开场3—5条必须全部是咨询人右侧提问");
+
+  const feePrompt = messages[feePromptIndex];
   if (
     feePrompt.role !== "left" ||
     isTransfer(feePrompt) ||
     feePrompt.text.trim() !== "500"
   )
-    throw new Error("第5条必须是曹义德律师左侧单独回复500");
+    throw new Error("连续提问后必须由曹义德律师左侧单独回复500");
 
-  const feeCard = messages[5];
+  const feeCard = messages[feePromptIndex + 1];
   if (
     !isTransfer(feeCard) ||
     feeCard.role !== "right" ||
@@ -49,13 +60,27 @@ export const validateDailyMessages = (messages: ChatMessage[]) => {
     feeCard.transferAmount !== "500.00" ||
     feeCard.transferState !== "accepted"
   )
-    throw new Error("第6条必须是咨询人右侧500元已被接收转账卡");
+    throw new Error("500回复后必须是咨询人右侧500元已被接收转账卡");
+
+  const receipt = messages[feePromptIndex + 2];
+  if (
+    !isTransfer(receipt) ||
+    receipt.role !== "left" ||
+    receipt.transferId !== "consultation-fee" ||
+    receipt.transferAmount !== "500.00" ||
+    receipt.transferState !== "received"
+  )
+    throw new Error("已被接收后必须显示曹义德律师左侧500元已收款回执");
 
   const transfers = messages.filter(isTransfer);
-  if (transfers.length !== 1)
-    throw new Error("每日V2只显示一张500元已被接收转账卡");
+  if (transfers.length !== 2)
+    throw new Error("每日V2必须且只能显示已被接收与已收款两张关联卡片");
 
-  if (!messages.slice(6).some((message) => message.role === "left"))
+  if (
+    !messages
+      .slice(feePromptIndex + 3)
+      .some((message) => message.role === "left")
+  )
     throw new Error("付款后必须进入律师正式答复");
 
   validateTransfers(messages);

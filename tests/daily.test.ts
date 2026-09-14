@@ -27,6 +27,15 @@ const validDailyMessages = (): ChatMessage[] => [
     transferAmount: "500.00",
     transferState: "accepted",
   },
+  {
+    id: "fee-receipt",
+    role: "left",
+    text: "",
+    kind: "transfer",
+    transferId: "consultation-fee",
+    transferAmount: "500.00",
+    transferState: "received",
+  },
   { id: "07", role: "left", text: "先固定现有证据" },
   { id: "08", role: "right", text: "具体要留哪些" },
   { id: "09", role: "left", text: "原始内容和转发记录都保存" },
@@ -50,9 +59,21 @@ test("selects the same topic for the same production date", () => {
   );
 });
 
-test("daily V2 enforces cold opening, 500 reply and one accepted transfer card", () => {
+test("daily V2 accepts 3—5 opening questions and requires both transfer cards", () => {
   const valid = validDailyMessages();
   assert.doesNotThrow(() => validateDailyMessages(valid));
+
+  const threeQuestions = validDailyMessages();
+  threeQuestions.splice(3, 1);
+  assert.doesNotThrow(() => validateDailyMessages(threeQuestions));
+
+  const fiveQuestions = validDailyMessages();
+  fiveQuestions.splice(4, 0, {
+    id: "04b",
+    role: "right",
+    text: "我现在应该先做什么",
+  });
+  assert.doesNotThrow(() => validateDailyMessages(fiveQuestions));
 
   const wrongOpening = validDailyMessages();
   wrongOpening[0] = { ...wrongOpening[0], role: "left" };
@@ -62,17 +83,9 @@ test("daily V2 enforces cold opening, 500 reply and one accepted transfer card",
   wrongFee[4] = { ...wrongFee[4], text: "收到" };
   assert.throws(() => validateDailyMessages(wrongFee));
 
-  const extraReceipt = validDailyMessages();
-  extraReceipt[11] = {
-    id: "fee-receipt",
-    role: "left",
-    text: "",
-    kind: "transfer",
-    transferId: "consultation-fee",
-    transferAmount: "500.00",
-    transferState: "received",
-  };
-  assert.throws(() => validateDailyMessages(extraReceipt));
+  const missingReceipt = validDailyMessages();
+  missingReceipt.splice(6, 1);
+  assert.throws(() => validateDailyMessages(missingReceipt));
 });
 
 test("calculates a bounded long-image height from the complete message list", () => {
