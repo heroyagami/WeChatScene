@@ -12,7 +12,6 @@
     {"id":"04","role":"right","text":"我不去，他们说按旷工处理"},
     {"id":"05","role":"left","text":"500"},
     {"id":"fee-sent","role":"right","text":"","kind":"transfer","transferId":"consultation-fee","transferAmount":"500.00","transferState":"accepted"},
-    {"id":"fee-receipt","role":"left","text":"","kind":"transfer","transferId":"consultation-fee","transferAmount":"500.00","transferState":"received"},
     {"id":"08","role":"left","text":"劳动合同岗位怎么写"},
     {"id":"09","role":"right","text":"写的是销售专员"},
     {"id":"10","role":"left","text":"调岗通知是书面的吗"},
@@ -64,6 +63,7 @@
     {"id":"56","role":"left","text":"不主动制造旷工证据"},
     {"id":"57","role":"left","text":"让公司决定下一步怎么走"},
     {"id":"58","role":"right","text":"明白，明天先正常打卡"},
-    {"id":"59","role":"left","text":"对，通知下来再发我看"}
+    {"id":"59","role":"left","text":"对，通知下来再发我看"},
+    {"id":"fee-receipt","role":"left","text":"","kind":"transfer","transferId":"consultation-fee","transferAmount":"500.00","transferState":"received"}
   ]
 }
