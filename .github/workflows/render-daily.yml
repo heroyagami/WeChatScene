@@ -9,6 +9,7 @@ on:
       - daily-input/latest.json
       - src/**
       - scripts/**
+      - tests/**
       - package.json
       - package-lock.json
       - .github/workflows/render-daily.yml
