@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "default": "forest-friends",
   "tracks": {
     "forest-friends": {
@@ -9,7 +9,7 @@
       "useFor": ["劳动争议", "婚姻家事", "合同纠纷", "普通民事咨询", "日常法律咨询"],
       "estimatedBpm": 152,
       "recommendedVolume": 0.09,
-      "privatePath": "private/bgm/17-forest-friends.mp3"
+      "publicPath": "bgm/kartrider/17-forest-friends.mp3"
     },
     "heartwarming": {
       "title": "Arctic Rim - Heartwarming",
@@ -18,7 +18,7 @@
       "useFor": ["未成年人", "家庭纠纷", "侵权受害", "情绪较重的话题"],
       "estimatedBpm": 103,
       "recommendedVolume": 0.08,
-      "privatePath": "private/bgm/04-heartwarming.mp3"
+      "publicPath": "bgm/kartrider/04-heartwarming.mp3"
     },
     "tarkis-home": {
       "title": "Galaxy Express - Tarki's Home",
@@ -27,7 +27,7 @@
       "useFor": ["AI", "互联网", "平台纠纷", "网络侵权", "科技法律"],
       "estimatedBpm": 152,
       "recommendedVolume": 0.08,
-      "privatePath": "private/bgm/10-tarkis-home.mp3"
+      "publicPath": "bgm/kartrider/10-tarkis-home.mp3"
     }
   },
   "productionRule": {
@@ -36,6 +36,7 @@
     "fadeInSeconds": 0.8,
     "fadeOutSeconds": 1.2,
     "defaultVolume": 0.09,
-    "selection": "普通题材默认 forest-friends；情绪敏感题材使用 heartwarming；AI/互联网/科技题材使用 tarkis-home。"
+    "selection": "普通题材默认 forest-friends；情绪敏感题材使用 heartwarming；AI/互联网/科技题材使用 tarkis-home。",
+    "repositoryAudioDirectory": "public/bgm/kartrider"
   }
 }
