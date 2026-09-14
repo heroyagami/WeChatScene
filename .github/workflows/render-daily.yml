@@ -1,0 +1,75 @@
+name: Render daily WeChat video
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - daily-input/latest.json
+      - src/**
+      - scripts/**
+      - package.json
+      - package-lock.json
+      - .github/workflows/render-daily.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-wechat-render
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify project
+        run: npm run verify
+
+      - name: Read production metadata
+        id: meta
+        shell: bash
+        run: |
+          DATE=$(node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('daily-input/latest.json','utf8'));process.stdout.write(x.date)")
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare daily render
+        run: npm run daily:prepare
+
+      - name: Render full chat image
+        run: npm run daily:long-image
+
+      - name: Render 16:9 video
+        run: npm run daily:render
+
+      - name: Package dated artifacts
+        shell: bash
+        run: |
+          DATE="${{ steps.meta.outputs.date }}"
+          mkdir -p artifacts
+          cp out/daily-wechat.mp4 "artifacts/wechat-${DATE}.mp4"
+          cp public/generated/daily-chat.png "artifacts/wechat-${DATE}.png"
+          cp daily-input/latest.json "artifacts/wechat-${DATE}.json"
+          cp generated/daily-manifest.json "artifacts/wechat-${DATE}-manifest.json"
+
+      - name: Upload render artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wechat-${{ steps.meta.outputs.date }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 30
