@@ -1,3 +1,4 @@
+import {textLines} from '../../scenes/reading';
 import React from "react";
 import { Img, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { getMessageStartFrame } from "./ChatEngine";
@@ -116,7 +117,8 @@ export const WeChatMessage: React.FC<{
   previous?: ChatMessage;
   index: number;
   animated?: boolean;
-}> = ({ message, previous, index, animated = true }) => {
+  preciseLayout?: boolean;
+}> = ({ message, previous, index, animated = true, preciseLayout = false }) => {
   const frame = useCurrentFrame();
   const entryFrame = getMessageStartFrame(message, index);
   const opacity = animated
@@ -235,13 +237,13 @@ export const WeChatMessage: React.FC<{
                 background: bubbleColor,
                 color: "#111",
                 fontSize: 38,
-                lineHeight: 1.4,
+                lineHeight: preciseLayout ? "54px" : 1.4,
                 boxShadow: message.highlight
                   ? "0 0 0 4px rgba(245,190,45,.6)"
                   : "0 1px 1px rgba(0,0,0,.04)",
               }}
             >
-              {message.text}
+              {preciseLayout ? textLines(message.text).map((line, i) => <div key={i} style={{whiteSpace: "pre"}}>{line || "\u00a0"}</div>) : message.text}
             </div>
           )}
         </div>

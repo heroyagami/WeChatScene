@@ -10,6 +10,9 @@ import {
 import { LONG_IMAGE_HEIGHT, LONG_IMAGE_WIDTH } from "./WeChatLongImage";
 
 export const WeChatImageScroll: React.FC<{
+  durationInFrames?: number;
+  points?: {frame: number; y: number}[];
+  scale?: number;
   imageSrc?: string;
   imageWidth?: number;
   imageHeight?: number;
@@ -17,6 +20,7 @@ export const WeChatImageScroll: React.FC<{
   frameFill?: number;
   maxScale?: number;
 }> = ({
+  points, scale,
   imageSrc = "generated/daily-chat.png",
   imageWidth = LONG_IMAGE_WIDTH,
   imageHeight = LONG_IMAGE_HEIGHT,
@@ -27,13 +31,13 @@ export const WeChatImageScroll: React.FC<{
   const frame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();
   const renderedWidth =
-    width <= imageWidth
+    scale ? imageWidth * scale : width <= imageWidth
       ? width
       : Math.min(width * frameFill, imageWidth * maxScale);
   const renderedHeight = (imageHeight / imageWidth) * renderedWidth;
   const overflow = Math.max(0, renderedHeight - height);
   const left = (width - renderedWidth) / 2;
-  const y = interpolate(
+  const y = points?.length ? interpolate(frame, points.map(p=>p.frame), points.map(p=>p.y), {extrapolateLeft: "clamp", extrapolateRight: "clamp"}) : interpolate(
     frame,
     [holdFrames, Math.max(holdFrames + 1, durationInFrames - holdFrames - 1)],
     [0, -overflow],

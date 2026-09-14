@@ -1,8 +1,10 @@
+import {randomInt} from 'node:crypto';
+import {readdir} from 'node:fs/promises';
+import {buildReadingTimeline} from '../src/scenes/reading';
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 import { sceneSchema } from "../src/schema";
-import { estimateLongImageHeight } from "../src/scenes/WeChatLongImage";
 import { validateDailyMessages } from "./daily-lib";
 
 const root = process.cwd();
@@ -14,6 +16,7 @@ const inputSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   topic: z.string().min(1).max(160),
   source: z.string().min(1).max(200),
+  readingCpm: z.number().positive().optional(),
   messages: z.array(z.unknown()),
 });
 
@@ -30,7 +33,13 @@ const parsedScene = sceneSchema.parse({
   durationInFrames: 1800,
 });
 validateDailyMessages(parsedScene.messages);
-const imageHeight = estimateLongImageHeight(parsedScene.messages);
+const avatars = (await readdir(path.join(root, 'public/img/wechat-avatars'))).filter(x => /^wechat-avatar-.*\.png$/.test(x)).sort();
+if (!avatars.length) throw new Error('咨询人头像库为空');
+const clientAvatar = 'img/wechat-avatars/' + avatars[randomInt(avatars.length)];
+parsedScene.messages = parsedScene.messages.map(m => ({...m, avatar: m.role === 'right' ? clientAvatar : 'img/wechat-avatars/caoyide-wechat-avatar.png'}));
+const timeline = buildReadingTimeline(parsedScene.messages, input.readingCpm ?? 360);
+parsedScene.durationInFrames = timeline.durationInFrames;
+const imageHeight = timeline.imageHeight;
 
 await mkdir(path.join(root, "generated"), { recursive: true });
 await mkdir(path.join(root, "public/generated"), { recursive: true });
@@ -40,7 +49,7 @@ await writeFile(
 );
 await writeFile(
   path.join(root, "generated/scroll-props.json"),
-  `${JSON.stringify({ imageSrc: "generated/daily-chat.png", imageWidth: 1080, imageHeight, holdFrames: 45 }, null, 2)}\n`,
+  `${JSON.stringify({ imageSrc: "generated/daily-chat.png", imageWidth: 1080, imageHeight, points: timeline.points, scale: timeline.scale, durationInFrames: timeline.durationInFrames }, null, 2)}\n`,
 );
 await writeFile(
   path.join(root, "generated/daily-manifest.json"),
@@ -55,11 +64,13 @@ await writeFile(
       height: 1080,
       aspectRatio: "16:9",
       fps: 30,
-      durationSeconds: 60,
+      durationSeconds: timeline.durationInFrames / 30,
+      reading: timeline,
+      clientAvatar,
       audio: false,
     },
   }, null, 2)}\n`,
 );
 console.log(
-  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\nrender=1920x1080@30fps/60s`,
+  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\nrender=1920x1080@30fps/${timeline.durationInFrames / 30}s`,
 );

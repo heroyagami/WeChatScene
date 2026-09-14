@@ -91,11 +91,13 @@ const Root = () => (
         imageWidth: LONG_IMAGE_WIDTH,
         imageHeight: LONG_IMAGE_HEIGHT,
         holdFrames: 45,
+        durationInFrames: 1800,
       }}
       width={1920}
       height={1080}
       fps={30}
       durationInFrames={1800}
+      calculateMetadata={({props}) => ({durationInFrames: Number(props.durationInFrames ?? 1800)})}
     />
   </>
 );

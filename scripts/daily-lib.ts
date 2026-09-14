@@ -18,7 +18,7 @@ export const selectDailyTopic = (topics: string[], date: string) => {
 const isTransfer = (message: ChatMessage) => message.kind === "transfer";
 
 export const validateDailyMessages = (messages: ChatMessage[]) => {
-  if (messages.length !== 12) throw new Error("每日聊天必须包含12条消息");
+  if (messages.length < 7) throw new Error("每日聊天至少包含7条消息");
 
   for (const message of messages) {
     if (!isTransfer(message) && message.text.length > 28)
