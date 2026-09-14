@@ -62,26 +62,24 @@ export const validateDailyMessages = (messages: ChatMessage[]) => {
   )
     throw new Error("500回复后必须是咨询人右侧500元已被接收转账卡");
 
-  const receipt = messages[feePromptIndex + 2];
+  const receipt = messages.at(-1);
   if (
+    !receipt ||
     !isTransfer(receipt) ||
     receipt.role !== "left" ||
     receipt.transferId !== "consultation-fee" ||
     receipt.transferAmount !== "500.00" ||
     receipt.transferState !== "received"
   )
-    throw new Error("已被接收后必须显示曹义德律师左侧500元已收款回执");
+    throw new Error("整段咨询结束后，最后一条必须是曹义德律师左侧500元已收款回执");
 
   const transfers = messages.filter(isTransfer);
   if (transfers.length !== 2)
     throw new Error("每日V2必须且只能显示已被接收与已收款两张关联卡片");
 
-  if (
-    !messages
-      .slice(feePromptIndex + 3)
-      .some((message) => message.role === "left")
-  )
-    throw new Error("付款后必须进入律师正式答复");
+  const consultationMessages = messages.slice(feePromptIndex + 2, -1);
+  if (!consultationMessages.some((message) => message.role === "left" && !isTransfer(message)))
+    throw new Error("付款后必须进入律师正式答复，已收款回执只能放在咨询结束后");
 
   validateTransfers(messages);
 };
