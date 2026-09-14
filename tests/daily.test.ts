@@ -118,20 +118,18 @@ test("long consultations are accepted and are never cropped to 3200 pixels", () 
   );
 });
 
-test("reading timeline preserves opening, fits payment and reaches the final message", () => {
+test("reading timeline uses one continuous linear movement from top to bottom", () => {
   const messages = validDailyMessages();
   const t = buildReadingTimeline(messages);
   const rows = messageRows(messages);
   assert.ok(rows[4].bottom * t.scale < 1080);
   assert.ok(rows[5].top * t.scale >= 1080);
-  assert.equal(t.points[0].y, 0);
-  assert.equal(t.points[1].y, 0);
-  assert.ok(t.points[1].frame > 45);
-  for (let i = 1; i < t.points.length; i++) {
-    assert.ok(t.points[i].frame > t.points[i - 1].frame);
-    assert.ok(t.points[i].y <= t.points[i - 1].y);
-  }
-  assert.ok(rows.at(-1)!.bottom * t.scale + t.points.at(-1)!.y <= 1080);
+  assert.equal(t.points.length, 2);
+  assert.deepEqual(t.points[0], { frame: 0, y: 0 });
+  assert.equal(t.points[1].frame, t.durationInFrames - 1);
+  assert.ok(t.points[1].y < 0);
+  assert.equal(t.motion, "linear-continuous");
+  assert.ok(rows.at(-1)!.bottom * t.scale + t.points[1].y <= 1080);
   assert.ok(
     buildReadingTimeline(messages, 180).durationInFrames > t.durationInFrames,
   );
