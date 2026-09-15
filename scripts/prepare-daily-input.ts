@@ -18,6 +18,8 @@ const inputSchema = z.object({
   readingCpm: z.number().positive().optional(),
   bgm: z.string().min(1).optional(),
   bgmVolume: z.number().min(0).max(1).optional(),
+  coverTag: z.string().min(1).max(8).optional(),
+  coverTitle: z.string().min(1).max(40).optional(),
   messages: z.array(z.unknown()),
 });
 
@@ -84,6 +86,8 @@ const timeline = buildReadingTimeline(
 parsedScene.durationInFrames = timeline.durationInFrames;
 const imageHeight = timeline.imageHeight;
 const consultantAvatar = selectConsultantAvatar(input.date);
+const coverTag = input.coverTag ?? "法律咨询";
+const coverTitle = input.coverTitle ?? input.topic;
 
 await mkdir(path.join(root, "generated"), { recursive: true });
 await mkdir(path.join(root, "public/generated"), { recursive: true });
@@ -105,6 +109,10 @@ await writeFile(
       bgmVolume,
       bgmFadeInSeconds: playlist.productionRule.fadeInSeconds,
       bgmFadeOutSeconds: playlist.productionRule.fadeOutSeconds,
+      coverTag,
+      coverTitle,
+      coverHoldSeconds: 1,
+      coverFadeOutSeconds: 0.2,
     },
     null,
     2,
@@ -127,6 +135,14 @@ await writeFile(
         durationSeconds: timeline.durationInFrames / 30,
         reading: timeline,
         consultantAvatar,
+        cover: {
+          tag: coverTag,
+          title: coverTitle,
+          holdSeconds: 1,
+          fadeOutSeconds: 0.2,
+          style: "wechat-green-white-charcoal",
+          subtitle: false,
+        },
         audio: bgmTrack
           ? {
               enabled: true,
@@ -150,5 +166,5 @@ await writeFile(
   )}\n`,
 );
 console.log(
-  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\nbgm=${bgmTrack ? bgmKey : "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / 30}s`,
+  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\ncover=${coverTag} / ${coverTitle}\nbgm=${bgmTrack ? bgmKey : "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / 30}s`,
 );
