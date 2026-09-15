@@ -108,9 +108,9 @@ JSON 输入见 `examples/consultation.json`。CLI 入口使用 `sceneSchema` 检
 
 ## 每日视频生产流程
 
-选题源位于 `content/topic-sources/`。默认生产任务每天北京时间08:00由 GitHub Actions 在云端调用 GPT，生成、校验并提交当天输入，随后在同一次云端运行中完成渲染。电脑无需开机。
+选题源位于 `content/topic-sources/`。日常出片优先直接在 **ChatGPT 聊天模式**完成，不需要为了每条视频切换 Work 模式。
 
-云端任务负责完整视频流程：
+聊天模式负责完整视频流程：
 
 1. 从 1—3 号选题 Markdown 中选择近期未重复、适合聊天表达的话题。
 2. 围绕题目生成完整咨询剧情，不受固定消息数限制。
@@ -121,7 +121,7 @@ JSON 输入见 `examples/consultation.json`。CLI 入口使用 `sceneSchema` 检
 7. 检查首帧、付款节点、中段和结尾关键帧，以及最终 MP4。
 8. 如果内容、阅读速度或滚动节奏有问题，只调整视频内容或生产参数后重新渲染。
 
-ChatGPT 聊天模式仍可随时人工指定题目或改稿；提交 `daily-input/latest.json` 后走同一渲染链。Work 模式主要留给 Remotion 组件、CI、头像库等底层维护。
+**Work 模式主要留给底层维护**：Remotion 组件重构、CI 修复、头像库更新、工程结构调整等。日常选题、写稿、触发渲染和成片检查不依赖 Work 模式。
 
 ## 每日云端渲染
 
