@@ -7,7 +7,7 @@
       "sourceTrack": "1.mp3 + 2.mp3（1.2秒交叉淡化）",
       "role": "default",
       "useFor": ["每日法律咨询视频"],
-      "recommendedVolume": 0.09,
+      "recommendedVolume": 0.45,
       "publicPath": "bgm/daily-01-02.mp3"
     },
     "heartwarming": {
@@ -34,7 +34,7 @@
     "loopToVideoDuration": true,
     "fadeInSeconds": 0.8,
     "fadeOutSeconds": 1.2,
-    "defaultVolume": 0.09,
+    "defaultVolume": 0.45,
     "selection": "所有每日法律咨询默认使用 forest-friends，对应由 1.mp3 与 2.mp3 合成的通用 BGM。",
     "repositoryAudioDirectory": "public/bgm"
   }
