@@ -49,23 +49,24 @@ export const buildReadingTimeline = (
   );
   const overflow = Math.max(0, imageHeight * scale - 1080);
 
-  // Reading speed determines only the TOTAL duration. The camera itself never
-  // pauses: it moves linearly from the top of the long image to the bottom.
+  // Reading speed determines the duration of the scrolling segment only.
+  // The first second is a fixed cover/title hold. After that the camera moves
+  // continuously and linearly from the top of the long image to the bottom.
   const totalReadingUnits = messages.reduce(
     (sum, message) => sum + readingUnits(message.text),
     0,
   );
   const transferCount = messages.filter((message) => message.kind === "transfer").length;
   const textSeconds = (totalReadingUnits * 60) / cpm;
-  // A small global comprehension allowance keeps short chat bubbles readable
-  // without introducing per-message stops. Transfer cards also need a little
-  // visual recognition time, again added only to the total duration.
   const comprehensionSeconds = messages.length * 0.12 + transferCount * 0.8;
-  const durationSeconds = Math.max(8, textSeconds + comprehensionSeconds);
-  const durationInFrames = Math.max(2, Math.ceil(durationSeconds * fps));
+  const scrollSeconds = Math.max(8, textSeconds + comprehensionSeconds);
+  const coverHoldFrames = Math.max(1, Math.round(fps * 1));
+  const scrollFrames = Math.max(2, Math.ceil(scrollSeconds * fps));
+  const durationInFrames = coverHoldFrames + scrollFrames;
 
   const points = [
     { frame: 0, y: 0 },
+    { frame: coverHoldFrames, y: 0 },
     { frame: durationInFrames - 1, y: -overflow },
   ];
 
@@ -77,6 +78,7 @@ export const buildReadingTimeline = (
     cpm,
     fps,
     readingUnits: totalReadingUnits,
-    motion: "linear-continuous" as const,
+    coverHoldSeconds: 1,
+    motion: "cover-hold-then-linear" as const,
   };
 };
