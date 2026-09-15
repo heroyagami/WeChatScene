@@ -13,7 +13,6 @@
     "still": "remotion still src/remotion.tsx WeChatPortrait out/wechat.png",
     "cards": "remotion still src/remotion.tsx TransferSent out/transfer-sent.png --image-format=png && remotion still src/remotion.tsx TransferReceived out/transfer-received.png --image-format=png",
     "daily:prepare": "tsx scripts/prepare-daily-input.ts",
-    "daily:cloud-generate": "tsx scripts/generate-daily-cloud.ts",
     "daily:long-image": "remotion still src/remotion.tsx WeChatLongImage public/generated/daily-chat.png --image-format=png --props=generated/daily-scene.json",
     "daily:render": "remotion render src/remotion.tsx WeChatImageScroll out/daily-wechat.mp4 --props=generated/scroll-props.json",
     "typecheck": "tsc --noEmit",
