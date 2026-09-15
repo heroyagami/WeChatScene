@@ -34,7 +34,7 @@ export const WeChatImageScroll: React.FC<{
   imageSrc = "generated/daily-chat.png",
   imageWidth = LONG_IMAGE_WIDTH,
   imageHeight = LONG_IMAGE_HEIGHT,
-  holdFrames = 45,
+  holdFrames = 60,
   frameFill = 0.95,
   maxScale = 1.7,
   bgmSrc,
@@ -43,8 +43,8 @@ export const WeChatImageScroll: React.FC<{
   bgmFadeOutSeconds = 1.2,
   coverTag,
   coverTitle,
-  coverHoldSeconds = 1,
-  coverFadeOutSeconds = 0.2,
+  coverHoldSeconds = 2,
+  coverFadeOutSeconds = 0.25,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height, fps } = useVideoConfig();
@@ -93,6 +93,14 @@ export const WeChatImageScroll: React.FC<{
   );
   const currentBgmVolume = Math.min(bgmVolume, fadeIn, fadeOut);
 
+  const titleLines = (coverTitle ?? "").split("\n").filter(Boolean);
+  const longestTitleLine = Math.max(
+    1,
+    ...titleLines.map((line) => Array.from(line).length),
+  );
+  const coverFontSize =
+    longestTitleLine <= 7 ? 68 : longestTitleLine <= 9 ? 60 : 52;
+
   const coverHoldFrames = Math.max(1, Math.round(coverHoldSeconds * fps));
   const coverFadeFrames = Math.max(1, Math.round(coverFadeOutSeconds * fps));
   const coverOpacity = interpolate(
@@ -131,13 +139,16 @@ export const WeChatImageScroll: React.FC<{
           style={{
             position: "absolute",
             left: "50%",
-            top: "56%",
+            top: "51%",
             transform: "translate(-50%, -50%)",
-            width: Math.min(1040, width * 0.64),
-            padding: "64px 62px 50px",
-            borderRadius: 34,
-            background: "rgba(24, 29, 27, 0.74)",
-            boxShadow: "0 18px 44px rgba(0,0,0,0.24)",
+            width: Math.min(560, width * 0.292),
+            boxSizing: "border-box",
+            padding: "76px 38px 42px",
+            borderRadius: 30,
+            background: "rgba(24, 29, 27, 0.84)",
+            border: "1px solid rgba(255,255,255,0.14)",
+            boxShadow: "0 22px 52px rgba(0,0,0,0.3)",
+            backdropFilter: "blur(10px)",
             opacity: coverOpacity,
             textAlign: "center",
             zIndex: 5,
@@ -146,19 +157,28 @@ export const WeChatImageScroll: React.FC<{
           {coverTag ? (
             <div
               style={{
+                position: "absolute",
+                left: "50%",
+                top: -34,
+                transform: "translateX(-50%)",
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                minWidth: 180,
-                height: 58,
-                padding: "0 30px",
+                minWidth: 168,
+                height: 62,
+                padding: "0 28px",
+                boxSizing: "border-box",
                 borderRadius: 999,
-                background: "#07c160",
+                background: "linear-gradient(180deg, #13c66a 0%, #079e4e 100%)",
+                border: "3px solid rgba(151, 242, 187, 0.72)",
+                boxShadow: "0 8px 20px rgba(0, 126, 62, 0.36)",
                 color: "white",
-                fontSize: 34,
-                fontWeight: 700,
+                fontFamily:
+                  "'Noto Sans CJK SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif",
+                fontSize: 31,
+                fontWeight: 800,
                 lineHeight: 1,
-                marginBottom: 26,
+                whiteSpace: "nowrap",
               }}
             >
               {coverTag}
@@ -168,12 +188,17 @@ export const WeChatImageScroll: React.FC<{
             <div
               style={{
                 color: "white",
-                fontSize: 72,
-                fontWeight: 800,
-                lineHeight: 1.18,
-                letterSpacing: -1.5,
+                fontFamily:
+                  "'Noto Sans CJK SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif",
+                fontSize: coverFontSize,
+                fontWeight: 900,
+                lineHeight: 1.16,
+                letterSpacing: 0,
                 whiteSpace: "pre-line",
-                textShadow: "0 3px 10px rgba(0,0,0,0.34)",
+                wordBreak: "keep-all",
+                textShadow:
+                  "0 3px 0 rgba(0,0,0,0.42), 0 7px 16px rgba(0,0,0,0.5)",
+                WebkitTextStroke: "1px rgba(0,0,0,0.2)",
               }}
             >
               {coverTitle}

@@ -50,7 +50,7 @@ export const buildReadingTimeline = (
   const overflow = Math.max(0, imageHeight * scale - 1080);
 
   // Reading speed determines the duration of the scrolling segment only.
-  // The first second is a fixed cover/title hold. After that the camera moves
+  // The first two seconds are a fixed cover/title hold. After that the camera moves
   // continuously and linearly from the top of the long image to the bottom.
   const totalReadingUnits = messages.reduce(
     (sum, message) => sum + readingUnits(message.text),
@@ -60,7 +60,7 @@ export const buildReadingTimeline = (
   const textSeconds = (totalReadingUnits * 60) / cpm;
   const comprehensionSeconds = messages.length * 0.12 + transferCount * 0.8;
   const scrollSeconds = Math.max(8, textSeconds + comprehensionSeconds);
-  const coverHoldFrames = Math.max(1, Math.round(fps * 1));
+  const coverHoldFrames = Math.max(1, Math.round(fps * 2));
   const scrollFrames = Math.max(2, Math.ceil(scrollSeconds * fps));
   const durationInFrames = coverHoldFrames + scrollFrames;
 
@@ -78,7 +78,7 @@ export const buildReadingTimeline = (
     cpm,
     fps,
     readingUnits: totalReadingUnits,
-    coverHoldSeconds: 1,
+    coverHoldSeconds: 2,
     motion: "cover-hold-then-linear" as const,
   };
 };

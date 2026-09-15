@@ -125,7 +125,7 @@ test("long consultations are accepted and are never cropped to 3200 pixels", () 
   );
 });
 
-test("reading timeline holds cover for one second then scrolls linearly to the bottom", () => {
+test("reading timeline holds cover for two seconds then scrolls linearly to the bottom", () => {
   const messages = validDailyMessages();
   const t = buildReadingTimeline(messages);
   const rows = messageRows(messages);
@@ -133,10 +133,10 @@ test("reading timeline holds cover for one second then scrolls linearly to the b
   assert.ok(rows[5].top * t.scale >= 1080);
   assert.equal(t.points.length, 3);
   assert.deepEqual(t.points[0], { frame: 0, y: 0 });
-  assert.deepEqual(t.points[1], { frame: 30, y: 0 });
+  assert.deepEqual(t.points[1], { frame: 60, y: 0 });
   assert.equal(t.points[2].frame, t.durationInFrames - 1);
   assert.ok(t.points[2].y < 0);
-  assert.equal(t.coverHoldSeconds, 1);
+  assert.equal(t.coverHoldSeconds, 2);
   assert.equal(t.motion, "cover-hold-then-linear");
   assert.ok(rows.at(-1)!.bottom * t.scale + t.points[2].y <= 1080);
   assert.ok(

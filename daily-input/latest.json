@@ -5,6 +5,8 @@
   "readingCpm": 420,
   "bgm": "forest-friends",
   "bgmVolume": 0.45,
+  "coverTag": "未成年人",
+  "coverTitle": "孩子打赏主播\n家长能追回吗？",
   "messages": [
     { "id": "01", "role": "right", "text": "曹律，我儿子偷偷给主播打赏" },
     { "id": "02", "role": "right", "text": "他才12岁，三个月花了两万八" },

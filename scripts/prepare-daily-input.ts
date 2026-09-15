@@ -88,6 +88,8 @@ const imageHeight = timeline.imageHeight;
 const consultantAvatar = selectConsultantAvatar(input.date);
 const coverTag = input.coverTag ?? "法律咨询";
 const coverTitle = input.coverTitle ?? input.topic;
+const coverHoldSeconds = 2;
+const coverFadeOutSeconds = 0.25;
 
 await mkdir(path.join(root, "generated"), { recursive: true });
 await mkdir(path.join(root, "public/generated"), { recursive: true });
@@ -111,8 +113,8 @@ await writeFile(
       bgmFadeOutSeconds: playlist.productionRule.fadeOutSeconds,
       coverTag,
       coverTitle,
-      coverHoldSeconds: 1,
-      coverFadeOutSeconds: 0.2,
+      coverHoldSeconds,
+      coverFadeOutSeconds,
     },
     null,
     2,
@@ -132,15 +134,16 @@ await writeFile(
         height: 1080,
         aspectRatio: "16:9",
         fps: 30,
-        durationSeconds: timeline.durationInFrames / 30,
+        durationSeconds: timeline.durationInFrames / parsedScene.fps,
         reading: timeline,
         consultantAvatar,
         cover: {
           tag: coverTag,
           title: coverTitle,
-          holdSeconds: 1,
-          fadeOutSeconds: 0.2,
-          style: "wechat-green-white-charcoal",
+          holdSeconds: coverHoldSeconds,
+          fadeOutSeconds: coverFadeOutSeconds,
+          centerCropSafeWidth: 560,
+          style: "reference-green-pill-charcoal-card",
           subtitle: false,
         },
         audio: bgmTrack
@@ -166,5 +169,5 @@ await writeFile(
   )}\n`,
 );
 console.log(
-  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\ncover=${coverTag} / ${coverTitle}\nbgm=${bgmTrack ? bgmKey : "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / 30}s`,
+  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\ncover=${coverTag} / ${coverTitle}\nbgm=${bgmTrack ? bgmKey : "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / parsedScene.fps}s`,
 );

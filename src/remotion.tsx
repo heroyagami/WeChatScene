@@ -90,7 +90,7 @@ const Root = () => (
         imageSrc: "generated/daily-chat.png",
         imageWidth: LONG_IMAGE_WIDTH,
         imageHeight: LONG_IMAGE_HEIGHT,
-        holdFrames: 45,
+        holdFrames: 60,
         durationInFrames: 1800,
       }}
       width={1920}
