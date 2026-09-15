@@ -24,6 +24,10 @@ export const WeChatImageScroll: React.FC<{
   bgmVolume?: number;
   bgmFadeInSeconds?: number;
   bgmFadeOutSeconds?: number;
+  coverTag?: string;
+  coverTitle?: string;
+  coverHoldSeconds?: number;
+  coverFadeOutSeconds?: number;
 }> = ({
   points,
   scale,
@@ -37,6 +41,10 @@ export const WeChatImageScroll: React.FC<{
   bgmVolume = 0.09,
   bgmFadeInSeconds = 0.8,
   bgmFadeOutSeconds = 1.2,
+  coverTag,
+  coverTitle,
+  coverHoldSeconds = 1,
+  coverFadeOutSeconds = 0.2,
 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height, fps } = useVideoConfig();
@@ -85,6 +93,15 @@ export const WeChatImageScroll: React.FC<{
   );
   const currentBgmVolume = Math.min(bgmVolume, fadeIn, fadeOut);
 
+  const coverHoldFrames = Math.max(1, Math.round(coverHoldSeconds * fps));
+  const coverFadeFrames = Math.max(1, Math.round(coverFadeOutSeconds * fps));
+  const coverOpacity = interpolate(
+    frame,
+    [Math.max(0, coverHoldFrames - coverFadeFrames), coverHoldFrames],
+    [1, 0],
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+  );
+
   return (
     <AbsoluteFill style={{ backgroundColor: "#ededed", overflow: "hidden" }}>
       {bgmSrc ? (
@@ -109,6 +126,61 @@ export const WeChatImageScroll: React.FC<{
           transform: `translateY(${y}px)`,
         }}
       />
+      {(coverTag || coverTitle) && coverOpacity > 0 ? (
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "56%",
+            transform: "translate(-50%, -50%)",
+            width: Math.min(1040, width * 0.64),
+            padding: "64px 62px 50px",
+            borderRadius: 34,
+            background: "rgba(24, 29, 27, 0.74)",
+            boxShadow: "0 18px 44px rgba(0,0,0,0.24)",
+            opacity: coverOpacity,
+            textAlign: "center",
+            zIndex: 5,
+          }}
+        >
+          {coverTag ? (
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minWidth: 180,
+                height: 58,
+                padding: "0 30px",
+                borderRadius: 999,
+                background: "#07c160",
+                color: "white",
+                fontSize: 34,
+                fontWeight: 700,
+                lineHeight: 1,
+                marginBottom: 26,
+              }}
+            >
+              {coverTag}
+            </div>
+          ) : null}
+          {coverTitle ? (
+            <div
+              style={{
+                color: "white",
+                fontSize: 72,
+                fontWeight: 800,
+                lineHeight: 1.18,
+                letterSpacing: -1.5,
+                whiteSpace: "pre-line",
+                textShadow: "0 3px 10px rgba(0,0,0,0.34)",
+              }}
+            >
+              {coverTitle}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </AbsoluteFill>
   );
 };
