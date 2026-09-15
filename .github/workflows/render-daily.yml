@@ -7,6 +7,8 @@ on:
       - main
     paths:
       - daily-input/latest.json
+      - content/bgm/**
+      - public/bgm/**
       - src/**
       - scripts/**
       - tests/**

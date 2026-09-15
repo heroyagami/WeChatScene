@@ -41,21 +41,7 @@ const playlist = JSON.parse(
   await readFile(path.join(root, "content/bgm/playlist.json"), "utf8"),
 ) as BgmPlaylist;
 
-const autoSelectBgm = (topic: string) => {
-  if (
-    /AI|人工智能|互联网|平台|网络|网暴|换脸|账号|数据|隐私|短视频|直播|电商|算法/i.test(
-      topic,
-    )
-  )
-    return "tarkis-home";
-  if (
-    /未成年|孩子|女儿|儿子|校园|家暴|家庭|老人|死亡|伤害|骚扰|性侵|黄谣|精神损害/i.test(
-      topic,
-    )
-  )
-    return "heartwarming";
-  return playlist.default;
-};
+const autoSelectBgm = (_topic: string) => playlist.default;
 
 const requestedBgm = input.bgm ?? "auto";
 const bgmKey =
@@ -72,8 +58,7 @@ if (bgmTrack) {
   try {
     await access(path.join(root, "public", bgmTrack.publicPath));
   } catch {
-    console.warn(`BGM文件尚未入库，当前先静音渲染: ${bgmTrack.publicPath}`);
-    bgmTrack = undefined;
+    throw new Error(`BGM文件缺失，停止生产渲染: ${bgmTrack.publicPath}`);
   }
 }
 const bgmVolume = bgmTrack

@@ -3,13 +3,12 @@
   "default": "forest-friends",
   "tracks": {
     "forest-friends": {
-      "title": "Frenzy Forest - Forest Friends",
-      "sourceTrack": "17 - Frenzy Forest - Forest Friends - 森林.mp3",
+      "title": "Daily Mix 01 + 02",
+      "sourceTrack": "1.mp3 + 2.mp3（1.2秒交叉淡化）",
       "role": "default",
-      "useFor": ["劳动争议", "婚姻家事", "合同纠纷", "普通民事咨询", "日常法律咨询"],
-      "estimatedBpm": 152,
+      "useFor": ["每日法律咨询视频"],
       "recommendedVolume": 0.09,
-      "publicPath": "bgm/kartrider/17-forest-friends.mp3"
+      "publicPath": "bgm/daily-01-02.mp3"
     },
     "heartwarming": {
       "title": "Arctic Rim - Heartwarming",
@@ -36,7 +35,7 @@
     "fadeInSeconds": 0.8,
     "fadeOutSeconds": 1.2,
     "defaultVolume": 0.09,
-    "selection": "普通题材默认 forest-friends；情绪敏感题材使用 heartwarming；AI/互联网/科技题材使用 tarkis-home。",
-    "repositoryAudioDirectory": "public/bgm/kartrider"
+    "selection": "所有每日法律咨询默认使用 forest-friends，对应由 1.mp3 与 2.mp3 合成的通用 BGM。",
+    "repositoryAudioDirectory": "public/bgm"
   }
 }
