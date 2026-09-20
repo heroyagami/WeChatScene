@@ -20,6 +20,11 @@ const inputSchema = z.object({
   bgmVolume: z.number().min(0).max(1).optional(),
   coverTag: z.string().min(1).max(8).optional(),
   coverTitle: z.string().min(1).max(40).optional(),
+  publishTitles: z.array(z.string().min(6).max(40)).min(3).max(5),
+  publishTags: z
+    .array(z.string().min(2).max(16).regex(/^[^#\\s]+$/))
+    .min(5)
+    .max(10),
   messages: z.array(z.unknown()),
 });
 
@@ -90,6 +95,24 @@ const coverTag = input.coverTag ?? "法律咨询";
 const coverTitle = input.coverTitle ?? input.topic;
 const coverHoldSeconds = 2;
 const coverFadeOutSeconds = 0.25;
+const publishTitles = input.publishTitles;
+const publishTags = input.publishTags;
+const hashtags = publishTags.map((tag) => `#${tag}`).join(" ");
+const publishCopy = [
+  "【推荐标题】",
+  publishTitles[0],
+  "",
+  "【备选标题】",
+  ...publishTitles.slice(1).map((title, index) => `${index + 1}. ${title}`),
+  "",
+  "【标签】",
+  hashtags,
+  "",
+  "【一键复制】",
+  publishTitles[0],
+  hashtags,
+  "",
+].join("\n");
 
 await mkdir(path.join(root, "generated"), { recursive: true });
 await mkdir(path.join(root, "public/generated"), { recursive: true });
@@ -121,6 +144,10 @@ await writeFile(
   )}\n`,
 );
 await writeFile(
+  path.join(root, "generated/publish-copy.txt"),
+  publishCopy,
+);
+await writeFile(
   path.join(root, "generated/daily-manifest.json"),
   `${JSON.stringify(
     {
@@ -146,6 +173,12 @@ await writeFile(
           style: "reference-green-pill-charcoal-card",
           subtitle: false,
         },
+        publish: {
+          primaryTitle: publishTitles[0],
+          alternateTitles: publishTitles.slice(1),
+          tags: publishTags,
+          copyFile: "publish-copy.txt",
+        },
         audio: bgmTrack
           ? {
               enabled: true,
@@ -169,5 +202,5 @@ await writeFile(
   )}\n`,
 );
 console.log(
-  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\ncover=${coverTag} / ${coverTitle}\nbgm=${bgmTrack ? bgmKey : "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / parsedScene.fps}s`,
+  `date=${input.date}\ntopic=${input.topic}\nmessages=${parsedScene.messages.length}\nimageHeight=${imageHeight}\ncover=${coverTag} / ${coverTitle}\npublishTitle=${publishTitles[0]}\ntags=${hashtags}\nbgm=${bgmTrack ? bgmKey : "none"}\nrender=1920x1080@30fps/${timeline.durationInFrames / parsedScene.fps}s`,
 );
