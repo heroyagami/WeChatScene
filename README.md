@@ -102,7 +102,7 @@ npm run render
 1. 先读取当前 `main` 的 `AGENTS.md`、校验器和 `daily-input/latest.json`。
 2. 读取 3 份选题 Markdown，并结合近期提交历史选择近期未重复的话题。
 3. 根据当天题目从零创作完整咨询。
-4. 同时生成 `coverTag` 和 `coverTitle`。
+4. 同时生成 `coverTag`、`coverTitle`、`publishTitles` 和 `publishTags`。
 5. 写入 `daily-input/latest.json` 并提交 `main`。
 6. 提交后回读验证。
 7. 等待 `.github/workflows/render-daily.yml` 完成。
@@ -110,6 +110,21 @@ npm run render
 9. 成功后报告：选题、完整 commit SHA、实际时长、Actions 链接、Artifact；失败时明确报告失败环节。
 
 不得提交 `out/`、`generated/`、`public/generated/`、日志、长图或视频。
+
+## 发布标题与标签
+
+每条每日视频同时生成便于发布时直接复制的标题与标签：
+
+- `publishTitles`：3—5 个候选标题，第 1 个为首选；
+- `publishTags`：5—10 个标签，JSON 中不带 `#`、不含空格。
+
+标题应准确、口语化、有冲突或行动价值，但不得标题党、夸大法律结论或承诺必然结果。标签优先采用“具体问题标签 + 法律领域标签 + 泛法律标签”的组合。
+
+`daily:prepare` 会生成 `generated/publish-copy.txt`；GitHub Actions 会把它随视频一起打包为：
+
+`wechat-YYYY-MM-DD-publish.txt`
+
+其中包含首选标题、备选标题、带 `#` 的标签，以及“首选标题 + 标签”的一键复制块。GitHub Actions 只负责确定性格式化和打包，标题与标签由每日 ChatGPT 云任务生成。
 
 ## 云端渲染
 
@@ -135,5 +150,6 @@ Artifact 通常包含：
 - `wechat-日期.png`
 - `wechat-日期.json`
 - `wechat-日期-manifest.json`
+- `wechat-日期-publish.txt`：首选标题、备选标题、标签和一键复制文本
 
 更多约束见 `AGENTS.md`。
