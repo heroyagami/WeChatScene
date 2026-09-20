@@ -83,6 +83,7 @@ jobs:
           cp public/generated/daily-chat.png "artifacts/wechat-${DATE}.png"
           cp daily-input/latest.json "artifacts/wechat-${DATE}.json"
           cp generated/daily-manifest.json "artifacts/wechat-${DATE}-manifest.json"
+          cp generated/publish-copy.txt "artifacts/wechat-${DATE}-publish.txt"
 
       - name: Upload render artifacts
         uses: actions/upload-artifact@v4
