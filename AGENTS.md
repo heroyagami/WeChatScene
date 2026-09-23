@@ -84,6 +84,7 @@ GitHub Actions 只承担现有确定性校验与渲染。不得把模型调用�
 - prepare 阶段生成 `generated/publish-copy.txt`，Artifact 中打包为 `wechat-YYYY-MM-DD-publish.txt`。
 - 发布文案文件必须包含：首选标题、备选标题、带 `#` 的标签行，以及“首选标题 + 标签”的一键复制块。
 - 每日云任务验收时必须确认该发布文案文件已进入 Artifact；缺失则不得报告完整成功。
+- GitHub Actions 的 Artifact（下载压缩包）命名为 `wechat-YYYY-MM-DD-首选发布标题`；标题中的文件名非法字符须替换，避免上传失败。压缩包内部各文件继续使用稳定的日期文件名。
 
 ## 音频
 
