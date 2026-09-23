@@ -54,8 +54,20 @@ jobs:
         id: meta
         shell: bash
         run: |
-          DATE=$(node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('daily-input/latest.json','utf8'));process.stdout.write(x.date)")
-          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          node <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs = require("fs");
+          const input = JSON.parse(fs.readFileSync("daily-input/latest.json", "utf8"));
+          const rawTitle =
+            input.publishTitles?.[0] ?? input.coverTitle ?? input.topic ?? "untitled";
+          const safeTitle =
+            rawTitle
+              .replace(/[\\/:*?"<>|\p{Cc}]/gu, "-")
+              .replace(/\s+/g, " ")
+              .replace(/[. ]+$/g, "")
+              .slice(0, 60) || "untitled";
+          console.log(`date=${input.date}`);
+          console.log(`artifact_name=wechat-${input.date}-${safeTitle}`);
+          NODE
 
       - name: Prepare daily render
         run: npm run daily:prepare
@@ -88,7 +100,7 @@ jobs:
       - name: Upload render artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: wechat-${{ steps.meta.outputs.date }}
+          name: ${{ steps.meta.outputs.artifact_name }}
           path: artifacts/
           if-no-files-found: error
           retention-days: 30
